@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:hjm="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f5f5f5"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/activity_servant_title"
+        style="@style/MyTopTheme"
+        android:text="素材规划" />
+
+    <LinearLayout
+        android:background="@color/google_write"
+        android:id="@+id/servant_spirit_based_return_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_servant_title"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/servant_spirit_based_return_ll_name"
+            style="@style/servantTitle"
+            android:layout_below="@+id/servant_info_attribute_ll"
+            android:text="灵基再临:" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/servantTitle"
+                android:layout_below="@+id/servant_info_attribute_ll"
+                android:text="当前:" />
+
+            <TextView
+                android:id="@+id/servant_spirit_based_return_dq_et"
+                android:layout_width="50dp"
+                android:text="1"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                style="@style/servantTitle"
+                android:layout_below="@+id/servant_info_attribute_ll"
+                android:text="目标:" />
+
+            <TextView
+                android:id="@+id/servant_spirit_based_return_mb_et"
+                android:layout_width="50dp"
+                android:text="1"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/servant_info_line_skill_line"
+            android:layout_marginTop="50dp"
+            style="@style/skill_view"
+            android:layout_below="@+id/servant_source_title" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/servant_skill_intensify_ll"
+        android:background="@color/google_write"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/servant_spirit_based_return_ll"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/servant_skill_intensify_ll_name"
+            style="@style/servantTitle"
+            android:layout_below="@+id/servant_info_attribute_ll"
+            android:text="技能强化:" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/servant_skill_intensify_one_name"
+                style="@style/servantTitle"
+                android:layout_width="0dp"
+                android:layout_below="@+id/servant_info_attribute_ll"
+                android:layout_weight="1"
+                android:text="技能1" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/servantTitle"
+                    android:layout_below="@+id/servant_info_attribute_ll"
+                    android:text="当前:" />
+
+                <TextView
+                    android:id="@+id/servant_skill_intensify_one_dq_ed"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    style="@style/servantTitle"
+                    android:layout_below="@+id/servant_info_attribute_ll"
+                    android:text="目标:" />
+
+                <TextView
+                    android:id="@+id/servant_skill_intensify_one_mb_ed"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/servant_skill_intensify_two_name"
+                style="@style/servantTitle"
+                android:layout_width="0dp"
+                android:layout_below="@+id/servant_info_attribute_ll"
+                android:layout_weight="1"
+                android:text="技能1" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/servantTitle"
+                    android:layout_below="@+id/servant_info_attribute_ll"
+                    android:text="当前:" />
+
+                <TextView
+                    android:id="@+id/servant_skill_intensify_two_dq_ed"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    style="@style/servantTitle"
+                    android:layout_below="@+id/servant_info_attribute_ll"
+                    android:text="目标:" />
+
+                <TextView
+                    android:id="@+id/servant_skill_intensify_two_mb_ed"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/servant_skill_intensify_three_name"
+                style="@style/servantTitle"
+                android:layout_width="0dp"
+                android:layout_below="@+id/servant_info_attribute_ll"
+                android:layout_weight="1"
+                android:text="技能1" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/servantTitle"
+                    android:layout_below="@+id/servant_info_attribute_ll"
+                    android:text="当前:" />
+
+                <TextView
+                    android:id="@+id/servant_skill_intensify_three_dq_ed"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    style="@style/servantTitle"
+                    android:layout_below="@+id/servant_info_attribute_ll"
+                    android:text="目标:" />
+
+                <TextView
+                    android:id="@+id/servant_skill_intensify_three_mb_ed"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/servant_skill_intensify_select"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        android:paddingLeft="14dp">
+
+        <TextView
+            android:id="@+id/personal_fragment_exit_rl_exit_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dp"
+            android:drawablePadding="17dp"
+            android:text="提交"
+            android:textColor="@color/google_red"
+            android:textSize="14sp" />
+    </RelativeLayout>
+</RelativeLayout>

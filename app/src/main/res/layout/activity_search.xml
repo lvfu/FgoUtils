@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:hjm="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f5f5f5"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_top_bc"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/activity_search_title"
+            style="@style/MyTopTheme"
+            android:text="真名检索" />
+
+        <ImageButton
+            android:id="@+id/search_replace"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@mipmap/replace" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/search_searchname_la"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/google_red"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/activity_search_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="14dp"
+            android:layout_weight="4"
+            android:background="@drawable/search_top_bac"
+            android:drawableLeft="@mipmap/search"
+            android:drawablePadding="8dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="请输入英灵真名"
+            android:imeOptions="actionSearch"
+            android:paddingLeft="15dp"
+            android:singleLine="true"
+            android:textColor="#664b4b"
+            android:textColorHint="#664b4b"
+            android:textCursorDrawable="@null"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/activity_search_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@null"
+            android:text="搜索"
+            android:textColor="@color/google_write"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/search_sx_layout"
+        layout="@layout/search_sx"
+        android:visibility="gone" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_servant_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

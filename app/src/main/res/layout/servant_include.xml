@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:hjm="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="10dp"
+    android:background="@color/google_write"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/servant_normal_hit_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/servant_normal_hit_buster"
+            style="@style/busterLl">
+
+            <TextView
+                style="@style/cardHitTitle"
+                android:text="buster  hit"
+                android:textColor="@color/google_red" />
+
+            <TextView
+                android:id="@+id/servant_normal_hit_buster_num"
+                style="@style/cardHitNum"
+                android:text="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/servant_normal_hit_art"
+            style="@style/busterLl">
+
+            <TextView
+                style="@style/cardHitTitle"
+                android:text="art  hit"
+                android:textColor="@color/google_blue" />
+
+            <TextView
+                android:id="@+id/servant_normal_hit_art_num"
+                style="@style/cardHitNum"
+                android:text="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/servant_normal_hit_quick"
+            style="@style/busterLl">
+
+            <TextView
+                style="@style/cardHitTitle"
+                android:text="quick  hit"
+                android:textColor="@color/google_green" />
+
+            <TextView
+                android:id="@+id/servant_normal_hit_quick_num"
+                style="@style/cardHitNum"
+                android:text="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/servant_normal_hit_ex"
+            style="@style/busterLl">
+
+            <TextView
+                style="@style/cardHitTitle"
+                android:text="ex  hit"
+                android:textColor="@color/google_black" />
+
+            <TextView
+                android:id="@+id/servant_normal_hit_ex_num"
+                style="@style/cardHitNum"
+                android:text="1" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

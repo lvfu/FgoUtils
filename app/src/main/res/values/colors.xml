@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+
+
+    <color name="fund_dialog_border_text_color">#585858</color>
+    <color name="google_blue">#4285F4</color>
+    <color name="google_red">#EA4335</color>
+    <color name="google_green">#34A853</color>
+    <color name="google_yellow">#FBBC05</color>
+    <color name="google_black">#000000</color>
+    <color name="google_write">#ffffff</color>
+
+    <color name="spiner_fund_item">#545454</color>
+    <color name="spiner_item">#8D8D8D</color>
+    <color name="spiner_window_fund">#F5F5F5</color>
+    <color name="order_manager_line">#E6E6E6</color>
+    <color name="folder_backgroung">#FFFFFF</color>
+    <color name="folder_textcolor">#d2d2d7</color>
+
+    <color name="choose_photo_background">#cc22292c</color>
+    <color name="choose_photo_view_background">#cc111111</color>
+    <color name="choose_photo_allbac">#000</color>
+    <color name="choose_photo_rlbac">#111111</color>
+    <color name="choose_photo_buttombac">#DC22292C</color>
+    <color name="choose_photo_textcolor">#FFFFFF</color>
+    <color name="choose_photo_viewbac">#cc111111</color>
+    <color name="camera_textcolor">#CDCECE</color>
+    <color name="image_list_backgroung">#88000000</color>
+    <!--图像处理-->
+    <color name="theme_body">#cc22292c</color>
+    <color name="status_bar">#303135</color>
+    <color name="top_bar">#9f556061</color>
+
+    <color name="pop_folder_view_background">#C000</color>
+    <color name="pop_folder_bottom_view_background">#0000</color>
+    <color name="topTitleColor">#F05050</color>
+    <color name="top_bg_colort">#00000000</color>
+    <color name="title_stuats">#3F000000</color>
+</resources>

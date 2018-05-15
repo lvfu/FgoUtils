@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:hjm="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/google_write"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/MyTopTheme"
+        android:layout_alignParentTop="true"
+        android:text="英灵进阶" />
+
+    <LinearLayout
+        android:id="@+id/servant_source_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/servant_source_title"
+            style="@style/servantTitle"
+            android:layout_below="@+id/servant_info_attribute_ll"
+            android:text="英灵进阶:" />
+
+        <View
+            android:id="@+id/servant_info_line_skill_line"
+            style="@style/skill_view"
+            android:layout_below="@+id/servant_source_title" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/servant_source_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp" />
+
+        <View
+            style="@style/skill_view"
+            android:layout_below="@+id/servant_source_rv"
+            android:layout_marginTop="5dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/servant_source_img_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/servant_source_img_title"
+            style="@style/servantTitle"
+            android:layout_below="@+id/servant_info_attribute_ll"
+            android:text="英灵模型:" />
+
+        <View
+            android:id="@+id/servant_info_line_img_line"
+            style="@style/skill_view"
+            android:layout_below="@+id/servant_source_title" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/servant_img_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp" />
+
+        <View
+            style="@style/skill_view"
+            android:layout_below="@+id/servant_img_rv"
+            android:layout_marginTop="5dp" />
+
+    </LinearLayout>
+</LinearLayout>

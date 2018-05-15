@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:hjm="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/google_write"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/servantTitle"
+        android:layout_marginLeft="20dp"
+        android:padding="10dp"
+        android:text="宝具:" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f5f5f5" />
+
+    <RelativeLayout
+        android:id="@+id/servant_info_treasure_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/servant_info_treasure_iv"
+            style="@style/servantSkill"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@mipmap/arts" />
+
+        <TextView
+            android:id="@+id/servant_info_skill_treasure_name"
+            style="@style/servantBody"
+            android:layout_marginTop="22dp"
+            android:layout_toRightOf="@+id/servant_info_treasure_iv"
+            android:text="宝具" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="30dp">
+
+        <VideoView
+            android:id="@+id/servant_info_treasure_video"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+    </LinearLayout>
+
+
+</LinearLayout>

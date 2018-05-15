@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_all_item"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/iv_arrow"
+        android:gravity="center_vertical"
+        android:textColor="@color/spiner_fund_item"
+        android:textSize="13sp" />
+
+    <!-- 灰色间隔线-->
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/order_manager_line" />
+
+    <ImageView
+        android:id="@+id/iv_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:src="@mipmap/iv_arrow"
+        android:visibility="visible" />
+
+
+</RelativeLayout>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="classType">
+        <item>All</item>
+        <item>Saber</item>
+        <item>Archer</item>
+        <item>Lancer</item>
+        <item>Rider</item>
+        <item>Caster</item>
+        <item>Assassin</item>
+        <item>Berserker</item>
+        <item>Ruler</item>
+        <item>Shielder</item>
+        <item>Alterego</item>
+        <item>Avenger</item>
+        <item>MoonCancer</item>
+        <item>Foreigner</item>
+    </string-array>
+
+    <string-array name="star">
+        <item>不限</item>
+        <item>1星</item>
+        <item>2星</item>
+        <item>3星</item>
+        <item>4星</item>
+        <item>5星</item>
+        <item>无星</item>
+    </string-array>
+
+    <string-array name="sort">
+        <item>ATK升序</item>
+        <item>ATK降序</item>
+        <item>HP升序</item>
+        <item>HP降序</item>
+    </string-array>
+
+    <string-array name="sort_value">
+        <item>default_atk,asc</item>
+        <item>default_atk,desc</item>
+        <item>default_hp,asc</item>
+        <item>default_hp,desc</item>
+    </string-array>
+
+    <integer-array name="star_value">
+        <item>-1</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>0</item>
+    </integer-array>
+    <string-array name="traineddata">
+        <item>选择识别库</item>
+        <item>chi_sim</item>
+        <item>eng</item>
+        <item>normal </item>
+        <item>nor </item>
+        <item>hebing </item>
+    </string-array>
+
+    <declare-styleable name="CropImageView">
+        <attr name="cropMaskColor" format="color"/>
+        <attr name="cropBorderColor" format="color"/>
+        <attr name="cropBorderWidth" format="dimension"/>
+        <attr name="cropFocusWidth" format="dimension"/>
+        <attr name="cropFocusHeight" format="dimension"/>
+        <attr name="cropStyle" format="enum">
+            <enum name="rectangle" value="0"/>
+            <enum name="circle" value="1"/>
+        </attr>
+    </declare-styleable>
+</resources>
