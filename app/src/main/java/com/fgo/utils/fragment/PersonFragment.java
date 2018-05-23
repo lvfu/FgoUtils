@@ -106,7 +106,7 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
                 UpdateDbFile();
 
             case R.id.data_in:
-                updateImageData();
+//                updateImageData();
                 break;
         }
     }
