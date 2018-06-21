@@ -119,13 +119,5 @@ public class DBManager {
         db.execSQL("delete from tab_name");
     }
 
-    //删除表,模拟异常情况
-    public void dropTable(){
-        try{
-//            SQLiteDatabase db = getDatabase();
-//            db.execSQL("drop table servants");
-        }catch (Exception e){
 
-        }
-    }
 }

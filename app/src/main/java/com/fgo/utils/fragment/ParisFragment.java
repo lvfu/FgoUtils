@@ -9,10 +9,11 @@ import com.fgo.utils.mvp.view.SourceView;
  * Created by lvfu on 2018/3/26.
  */
 
-public class SourceFragment extends QuickFragment<SourceView,SourcePresenter> {
+public class ParisFragment extends QuickFragment<SourceView,SourcePresenter> {
+
     @Override
     public int getRootViewId() {
-        return R.layout.fragment_source;
+        return R.layout.fragment_paris;
     }
 
     @Override
