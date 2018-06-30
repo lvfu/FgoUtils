@@ -3,10 +3,7 @@ package com.fgo.utils;
 import android.app.Application;
 import android.widget.Toast;
 
-import com.baidu.ocr.sdk.OCR;
-import com.baidu.ocr.sdk.OnResultListener;
-import com.baidu.ocr.sdk.exception.OCRError;
-import com.baidu.ocr.sdk.model.AccessToken;
+
 import com.fgo.utils.utils.SharedPreferencesUtils;
 import com.king.frame.api.ApiManager;
 import com.king.frame.mvp.activity.ActivityCollector;
@@ -26,7 +23,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         init();
-        initAccessToken();
         //程序默认UnCentHandler为异常处理器
         UnCentHandler catchException = new UnCentHandler(this);
         Thread.setDefaultUncaughtExceptionHandler(catchException);
@@ -55,18 +51,5 @@ public class App extends Application {
 
 
 
-    private void initAccessToken() {
-        OCR.getInstance().initAccessToken(new OnResultListener<AccessToken>() {
-            @Override
-            public void onResult(AccessToken accessToken) {
-                String token = accessToken.getAccessToken();
-                SharedPreferencesUtils.setParam(getApplicationContext(),"token",token);
-            }
 
-            @Override
-            public void onError(OCRError error) {
-                error.printStackTrace();
-            }
-        }, getApplicationContext());
-    }
 }

@@ -1,6 +1,5 @@
 package com.fgo.utils.fragment;
 
-import com.baidu.ocr.sdk.utils.LogUtil;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

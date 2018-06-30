@@ -43,10 +43,6 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".activity.ServantSourcePlanActivity" />
         <activity android:name=".MainActivity"></activity>
-        <activity android:name=".utils.image.ImageGridActivity"></activity>
-        <activity android:name=".utils.image.ImageCropActivity"></activity>
-        <activity android:name=".utils.image.ImageBaseActivity"></activity>
-        <activity android:name=".utils.image.ImagePreviewActivity"></activity>
 
     </application>
 

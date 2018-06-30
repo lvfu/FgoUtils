@@ -19,10 +19,6 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.baidu.ocr.sdk.OCR;
-import com.baidu.ocr.sdk.OnResultListener;
-import com.baidu.ocr.sdk.exception.OCRError;
-import com.baidu.ocr.sdk.model.AccessToken;
 import com.bumptech.glide.Glide;
 import com.fgo.utils.MainActivity;
 import com.fgo.utils.R;
@@ -55,25 +51,7 @@ public class SplashActivity extends AppCompatActivity {
 
         handler = new Handler(Looper.getMainLooper());
         initView();
-        initBaiduSt();
         initPermission();
-    }
-
-    private void initBaiduSt() {
-        OCR.getInstance().initAccessToken(new OnResultListener<AccessToken>() {
-            @Override
-            public void onResult(AccessToken result) {
-                // 调用成功，返回AccessToken对象
-                String token = result.getAccessToken();
-                SharedPreferencesUtils.setParam(SplashActivity.this, "token", token + "");
-            }
-
-            @Override
-            public void onError(OCRError error) {
-                error.printStackTrace();
-                Toast.makeText(SplashActivity.this, "licence方式获取token失败", Toast.LENGTH_SHORT).show();
-            }
-        }, getApplicationContext());
     }
 
     private void initPermission() {

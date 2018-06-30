@@ -23,7 +23,9 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.baidu.ocr.sdk.utils.LogUtil;
+import com.fgo.utils.bean.userBean;
+import com.fgo.utils.constant.GlobalConstant;
+import com.fgo.utils.face.GetRequest_Interface;
 import com.fgo.utils.utils.SharedPreferencesUtils;
 import com.king.frame.mvp.base.QuickFragment;
 import com.fgo.utils.MainActivity;
@@ -31,10 +33,6 @@ import com.fgo.utils.R;
 import com.fgo.utils.db.DBManager;
 import com.fgo.utils.mvp.presenter.PersonPresenter;
 import com.fgo.utils.mvp.view.PersonView;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
-import com.zhihu.matisse.filter.Filter;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -45,6 +43,12 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 import static com.fgo.utils.db.DBManager.DB_NAME;
 import static com.fgo.utils.utils.UnCentHandler.TAG;
 
@@ -52,7 +56,7 @@ import static com.fgo.utils.utils.UnCentHandler.TAG;
  * Created by lvfu on 2018/3/26.
  */
 
-public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> implements View.OnClickListener {
+public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> implements View.OnClickListener, PersonView {
     private static final int REQUEST_CODE_GENERAL_WEBIMAGE = 110;
     private static final int RESULT_OK = -1;
     private TextView mInitDb, upDateDao;
@@ -67,6 +71,7 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
     private Context context;
     private int maxImgCount = 1;
     private String path;
+    private PersonPresenter personPresenter;
 
     @Override
     public int getRootViewId() {
@@ -92,7 +97,9 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
 
     @Override
     public PersonPresenter createPresenter() {
-        return new PersonPresenter();
+        personPresenter = new PersonPresenter();
+
+        return personPresenter;
     }
 
     @Override
@@ -106,9 +113,37 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
                 UpdateDbFile();
 
             case R.id.data_in:
-//                updateImageData();
+                request();
                 break;
         }
+    }
+
+    public void request() {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GlobalConstant.PUBLIC_URL) // 设置 网络请求 Url
+                .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析(记得加入依赖)
+                .build();
+
+        GetRequest_Interface request = retrofit.create(GetRequest_Interface.class);
+
+        //对 发送请求 进行封装
+        Call<userBean> call = request.getCall();
+
+        call.enqueue(new Callback<userBean>() {
+            //请求成功时回调
+            @Override
+            public void onResponse(Call<userBean> call, Response<userBean> response) {
+                userBean body = response.body();
+                showData(body);
+            }
+
+            //请求失败时回调
+            @Override
+            public void onFailure(Call<userBean> call, Throwable throwable) {
+                System.out.println("连接失败");
+            }
+        });
     }
 
     private void updateImageData() {
@@ -117,42 +152,12 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
         }
 
 
-        Matisse.from(PersonFragment.this)
-                .choose(MimeType.allOf()) // 选择 mime 的类型
-                .countable(true)
-                .maxSelectable(1) // 图片选择的最多数量
-//                        .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                .thumbnailScale(0.99f) // 缩略图的比例
-                .imageEngine(new GlideEngine()) // 使用的图片加载引擎
-                .forResult(REQUEST_CODE_GENERAL_WEBIMAGE); // 设置作为标记的请求码
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_CODE_GENERAL_WEBIMAGE && resultCode == RESULT_OK) {
-            String token = (String) SharedPreferencesUtils.getParam(getContext(), "token", "");
-
-            List<Uri> uris = Matisse.obtainResult(data);
-            String realFilePath = getRealFilePath(getContext(), uris.get(0));
-
-            try {
-                RecognizeService.recReceipt(realFilePath, token);
-
-            } catch (Exception e) {
-                e.toString();
-            }
-
-            RecognizeService.onPostResult(new RecognizeService.OnListener() {
-                @Override
-                public void onSuccessListener(List<String> list) {
-
-                    LogUtil.e("abc", list.get(0).toString() + "&" + list.get(1).toString() + "&" + list.get(2).toString() + "&" + list.get(3).toString() + "&" + list.get(4).toString() + "&" + list.get(5).toString());
-                }
-            });
-        }
     }
 
     public static String getRealFilePath(final Context context, final Uri uri) {
@@ -384,5 +389,10 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
                 .getLaunchIntentForPackage(getContext().getPackageName());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         getContext().startActivity(intent);
+    }
+
+    @Override
+    public void showData(userBean body) {
+        Toast.makeText(getContext(), body.getMsg(), Toast.LENGTH_SHORT).show();
     }
 }
