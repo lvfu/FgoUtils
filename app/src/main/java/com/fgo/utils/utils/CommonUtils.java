@@ -376,7 +376,7 @@ public class CommonUtils {
 
 
     //数据库 技能
-    public static ArrayList<SourcePlanBean> getSkillList (Cursor cur1){
+    public static ArrayList<SourcePlanBean> getSkillList(Cursor cur1) {
         if (cur1 != null) {
             int NUM_SERVANT = cur1.getCount();
             ArrayList<SourcePlanBean> cache = new ArrayList<>();

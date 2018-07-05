@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.fgo.utils.bean.ServantListBean;
+import com.fgo.utils.constant.GlobalData;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.king.frame.mvp.base.QuickFragment;
@@ -55,16 +57,17 @@ public class HeroFragment extends QuickFragment<HeroView, HeroPresenter> impleme
         linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
         seventRv.setLayoutManager(linearLayoutManager);
 
-        List<ServantItem> servantList = ((MainActivity) getActivity()).getServantList();
-        List<ServantSkill> servantSkillList = ((MainActivity) getActivity()).getServantSkillList();
+        presenter.getServantList();
 
-        heroFragmentAdaper = new HeroFragmentAdaper(servantList, servantSkillList,getContext());
-        seventRv.setAdapter(heroFragmentAdaper);
+        //暂时用于适配材料规划
+        List<ServantSkill> servantSkills = ((MainActivity) getActivity()).getServantSkillList();
+        GlobalData.getInstance().servantSkillsList.addAll(servantSkills);
     }
 
     @Override
     public HeroPresenter createPresenter() {
-        return new HeroPresenter();
+        presenter = new HeroPresenter();
+        return presenter;
     }
 
 
@@ -78,5 +81,21 @@ public class HeroFragment extends QuickFragment<HeroView, HeroPresenter> impleme
                 startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    public void showServantList(ServantListBean servantBean) {
+        List<ServantSkill> servantSkillList = ((MainActivity) getActivity()).getServantSkillList();
+        String code = servantBean.getCode();
+        String msg = servantBean.getMsg();
+        if ("success".equals(code)) {
+            List<ServantListBean.DataBean> servantList = servantBean.getData();
+            heroFragmentAdaper = new HeroFragmentAdaper(servantList, servantSkillList, getContext());
+            seventRv.setAdapter(heroFragmentAdaper);
+
+        } else {
+
+        }
+
     }
 }

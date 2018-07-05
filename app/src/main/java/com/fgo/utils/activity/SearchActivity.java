@@ -377,7 +377,7 @@ public class SearchActivity extends QuickActivity<SearchView, SearchPresenter> i
             Toast.makeText(this, "请输入关键字", Toast.LENGTH_SHORT).show();
             return;
         }
-        heroFragmentAdaper = new HeroFragmentAdaper(servantList, servantSkillList, getContext());
+//        heroFragmentAdaper = new HeroFragmentAdaper(servantList, servantSkillList, getContext());
         mSearchRv.setAdapter(heroFragmentAdaper);
     }
 }

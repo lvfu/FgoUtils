@@ -14,7 +14,9 @@ import com.bumptech.glide.Glide;
 import com.fgo.utils.R;
 import com.fgo.utils.activity.ServantActivity;
 import com.fgo.utils.bean.ServantItem;
+import com.fgo.utils.bean.ServantListBean;
 import com.fgo.utils.bean.ServantSkill;
+import com.fgo.utils.constant.GlobalData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,20 +27,21 @@ import java.util.List;
 
 public class HeroFragmentAdaper extends RecyclerView.Adapter {
 
-    private List<ServantItem> servantList = new ArrayList<>();
+    private List<ServantListBean.DataBean> servantList = new ArrayList<>();
     private List<ServantSkill> servantSkillList = new ArrayList<>();
     private Context mContext;
 
-    public HeroFragmentAdaper(List<ServantItem> list, List<ServantSkill> skillList,Context mContext) {
+    public HeroFragmentAdaper(List<ServantListBean.DataBean> list, List<ServantSkill> skillList, Context mContext) {
         servantList.addAll(list);
         servantSkillList.addAll(skillList);
         this.mContext = mContext;
     }
 
     public void setEmptyData() {
-        servantList=null;
-        servantSkillList=null;
+        servantList = null;
+        servantSkillList = null;
     }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder holder = new HeroFragmentAdaper.HeroFragmentHolder(LayoutInflater.from(
@@ -48,14 +51,13 @@ public class HeroFragmentAdaper extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         HeroFragmentAdaper.HeroFragmentHolder holder1 = (HeroFragmentAdaper.HeroFragmentHolder) holder;
-        if (servantList==null||servantSkillList==null){
+        if (servantList == null || servantSkillList == null) {
             return;
         }
 
-        final ServantItem item = servantList.get(position);
-        final ServantSkill servantSkill = servantSkillList.get(position);
+        final ServantListBean.DataBean item = servantList.get(position);
         int resId = mContext.getResources().getIdentifier("image" + item.getId(), "mipmap", mContext.getPackageName());
         if (resId != 0) {
             holder1.item_hero_icon.setImageResource(resId);
@@ -75,14 +77,18 @@ public class HeroFragmentAdaper extends RecyclerView.Adapter {
         }
 
         holder1.item_hero_name.setText(item.getName());
-        holder1.item_hero_classType.setText(item.getClass_type());
+        holder1.item_hero_classType.setText(item.getClassType());
 
         holder1.item_hero_rl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent sIntent = new Intent(mContext, ServantActivity.class);
-                sIntent.putExtra("servants", item);
-                sIntent.putExtra("servantskill", servantSkill);
+
+                //暂时为了适配素材规划
+                ServantSkill servantSkill = GlobalData.getInstance().servantSkillsList.get(position);
+                sIntent.putExtra("servantSkill", servantSkill);
+
+                sIntent.putExtra("id", item.getId());
                 mContext.startActivity(sIntent);
             }
         });
@@ -90,13 +96,11 @@ public class HeroFragmentAdaper extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        if (servantList==null){
+        if (servantList == null) {
             return 0;
         }
         return servantList.size();
     }
-
-
 
 
     public class HeroFragmentHolder extends RecyclerView.ViewHolder {

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.fgo.utils.R;
 import com.fgo.utils.bean.ServantSkill;
+import com.fgo.utils.bean.ServantSkillBean;
 import com.fgo.utils.bean.SkillSmallBean;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 
 public class SkillAdaper extends RecyclerView.Adapter {
-    private ServantSkill servantSkillItem;
+    private ServantSkillBean.DataBean servantSkillItem;
     private SkillSmallBean skillBean;
     private Context mContext;
     private final List<String> skillEffect;
@@ -30,7 +31,7 @@ public class SkillAdaper extends RecyclerView.Adapter {
     private int VIEW_NORMAL = 1;
     private LayoutInflater inflater;
 
-    public SkillAdaper(ServantSkill servantSkillItem, SkillSmallBean skillbean, Context context) {
+    public SkillAdaper(ServantSkillBean.DataBean servantSkillItem, SkillSmallBean skillbean, Context context) {
         this.servantSkillItem = servantSkillItem;
         this.skillBean = skillbean;
         mContext = context;

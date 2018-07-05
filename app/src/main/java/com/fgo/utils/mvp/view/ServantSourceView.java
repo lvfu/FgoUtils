@@ -1,5 +1,6 @@
 package com.fgo.utils.mvp.view;
 
+import com.fgo.utils.bean.ServantAdvancedBean;
 import com.king.frame.mvp.base.BaseView;
 
 /**
@@ -7,4 +8,5 @@ import com.king.frame.mvp.base.BaseView;
  */
 
 public interface ServantSourceView extends BaseView {
+    void showServantAdvancedData(ServantAdvancedBean body);
 }

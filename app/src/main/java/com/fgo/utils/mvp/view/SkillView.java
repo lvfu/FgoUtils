@@ -1,5 +1,7 @@
 package com.fgo.utils.mvp.view;
 
+import com.fgo.utils.bean.ServantDetailBean;
+import com.fgo.utils.bean.ServantSkillBean;
 import com.king.frame.mvp.base.BaseView;
 
 /**
@@ -7,4 +9,5 @@ import com.king.frame.mvp.base.BaseView;
  */
 
 public interface SkillView extends BaseView{
+    void showServantSkillData(ServantSkillBean body);
 }

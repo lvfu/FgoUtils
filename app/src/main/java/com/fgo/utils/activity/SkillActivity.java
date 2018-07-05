@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.fgo.utils.bean.ServantDetailBean;
+import com.fgo.utils.bean.ServantSkillBean;
 import com.king.frame.mvp.base.QuickActivity;
 import com.fgo.utils.R;
 import com.fgo.utils.adaper.SkillSourceAdaper;
@@ -27,7 +29,6 @@ import java.util.List;
 public class SkillActivity extends QuickActivity<SkillView, SkillPresenter> implements SkillView {
 
     private Context context;
-    private ServantSkill servantSkillItem;
     private String skillSelect;
     private TextView mTitle;
     private RecyclerView mSkillRv, mSkillSourceRv;
@@ -37,6 +38,10 @@ public class SkillActivity extends QuickActivity<SkillView, SkillPresenter> impl
 
     private boolean isCanNewList = true;
     private LinearLayout mSkillSourceLl;
+    private SkillPresenter skillPresenter;
+    private int id;
+    private ServantSkillBean.DataBean servantSkillData;
+
 
     @Override
     public int getRootViewId() {
@@ -48,10 +53,8 @@ public class SkillActivity extends QuickActivity<SkillView, SkillPresenter> impl
         context = this;
         StatusBarUtil.setColor(this, getResources().getColor(R.color.google_red), 0);
 
-        //获取数据源
-        servantSkillItem = (ServantSkill) getIntent().getSerializableExtra("servantSkillItem");
         skillSelect = getIntent().getStringExtra("skillSelect");
-
+        id = getIntent().getIntExtra("id", -1);
         //title
         mTitle = findViewById(R.id.activity_skill_title);
 
@@ -74,14 +77,30 @@ public class SkillActivity extends QuickActivity<SkillView, SkillPresenter> impl
     @Override
     public void initData() {
 
-        //设置title数据
-        setTitleData(skillSelect);
+        skillPresenter.getServantSkillData(id, skillSelect);
 
-        //设置rv数据
-        setSkillData();
+    }
 
-        //设置技能资源数据
-        setSkillSourdeData();
+    @Override
+    public void showServantSkillData(ServantSkillBean body) {
+        String code = body.getCode();
+
+        if ("success".equals(code)) {
+
+            servantSkillData = body.getData();
+
+            //设置title数据
+            setTitleData();
+
+            //设置rv数据
+            setSkillData();
+
+            //设置技能资源数据
+            setSkillSourdeData();
+
+        } else {
+
+        }
 
     }
 
@@ -89,13 +108,13 @@ public class SkillActivity extends QuickActivity<SkillView, SkillPresenter> impl
         skillSourceList = new ArrayList<>();
 
         //素材  剑之辉石|剑之辉石|剑之魔石|剑之魔石,凤凰的羽毛|剑之秘石,凤凰的羽毛|剑之秘石,八连双晶|八连双晶,龙牙|龙牙,无间的齿车|传承结晶
-        String skill_material_arr = servantSkillItem.getSkill_material_arr();
+        String skill_material_arr = servantSkillData.getSkill_material_arr();
         //数量  4|8|4|8, 4|4, 7|8, 10|20, 4|12, 10|1
-        String skill_material_num_arr = servantSkillItem.getSkill_material_num_arr();
+        String skill_material_num_arr = servantSkillData.getSkill_material_num_arr();
         //图片  sphere01.png|sphere01.png|ruby01.png|ruby01.png,gear.png|star01.png,gear.png|star01.png,plate.png|plate.png,clevis.png|clevis.png,claw.png|cubes.png
-        String skill_material_img_arr = servantSkillItem.getSkill_material_img_arr();
+        String skill_material_img_arr = servantSkillData.getSkill_material_img_arr();
         //qp   50000|100000|300000|400000|1000000|1250000|2500000|3000000|5000000
-        String skill_cost_arr = servantSkillItem.getSkill_cost_arr();
+        String skill_cost_arr = servantSkillData.getSkill_cost_arr();
 
         skillSourceList = CommonUtils.getSourceList(skillSourceList, skill_material_arr, skill_material_num_arr, skill_material_img_arr, skill_cost_arr);
 
@@ -114,26 +133,18 @@ public class SkillActivity extends QuickActivity<SkillView, SkillPresenter> impl
             setSkillBean();
         }
 
-        SkillAdaper skillAdaper = new SkillAdaper(servantSkillItem, skillSmallBean, this);
+        SkillAdaper skillAdaper = new SkillAdaper(servantSkillData, skillSmallBean, this);
         mSkillRv.setAdapter(skillAdaper);
     }
 
     private void setSkillBean() {
         skillSmallBean = new SkillSmallBean();
 
-        if (skillSelect.equals("1")) {
-            setBean(servantSkillItem.getSkill_one_name(), servantSkillItem.getSkill_one_level(),
-                    servantSkillItem.getSkill_one_cool_down(), servantSkillItem.getSkill_one_effect(),
-                    servantSkillItem.getSkill_one_effect_value(), servantSkillItem.getSkill_one_img());
-        } else if (skillSelect.equals("2")) {
-            setBean(servantSkillItem.getSkill_two_name(), servantSkillItem.getSkill_two_level(),
-                    servantSkillItem.getSkill_two_cool_down(), servantSkillItem.getSkill_two_effect(),
-                    servantSkillItem.getSkill_two_effect_value(), servantSkillItem.getSkill_two_img());
-        } else if (skillSelect.equals("3")) {
-            setBean(servantSkillItem.getSkill_three_name(), servantSkillItem.getSkill_three_level(),
-                    servantSkillItem.getSkill_three_cool_down(), servantSkillItem.getSkill_three_effect(),
-                    servantSkillItem.getSkill_three_effect_value(), servantSkillItem.getSkill_three_img());
-        }
+
+        setBean(servantSkillData.getSkill_name(), servantSkillData.getSkill_level(),
+                servantSkillData.getSkill_cool_down(), servantSkillData.getSkill_effect(),
+                servantSkillData.getSkill_effect_value(), servantSkillData.getSkill_img());
+
 
     }
 
@@ -163,26 +174,17 @@ public class SkillActivity extends QuickActivity<SkillView, SkillPresenter> impl
     }
 
 
-    private void setTitleData(String str) {
-        switch (str) {
-            case "1":
-                mTitle.setText(servantSkillItem.getSkill_one_name());
-                mSkillSourceLl.setVisibility(View.VISIBLE);
-                break;
-            case "2":
-                mTitle.setText(servantSkillItem.getSkill_two_name());
-                mSkillSourceLl.setVisibility(View.GONE);
-                break;
-            case "3":
-                mTitle.setText(servantSkillItem.getSkill_three_name());
-                mSkillSourceLl.setVisibility(View.GONE);
-                break;
-        }
+    private void setTitleData() {
+        mTitle.setText(servantSkillData.getSkill_name());
+        mSkillSourceLl.setVisibility(View.VISIBLE);
     }
 
     @NonNull
     @Override
     public SkillPresenter createPresenter() {
-        return new SkillPresenter();
+        skillPresenter = new SkillPresenter();
+        return skillPresenter;
     }
+
+
 }

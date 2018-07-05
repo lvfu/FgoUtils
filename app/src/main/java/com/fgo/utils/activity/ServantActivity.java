@@ -16,6 +16,8 @@ import android.widget.VideoView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
+import com.fgo.utils.bean.ServantDetailBean;
+import com.fgo.utils.constant.GlobalData;
 import com.king.frame.mvp.base.QuickActivity;
 import com.fgo.utils.R;
 import com.fgo.utils.adaper.ServantAdaper;
@@ -27,6 +29,7 @@ import com.fgo.utils.mvp.view.ServantView;
 import com.fgo.utils.utils.CommonUtils;
 import com.fgo.utils.utils.StatusBarUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +40,7 @@ import java.util.List;
 public class ServantActivity extends QuickActivity<ServantView, ServantPresenter> implements ServantView, View.OnClickListener {
 
     private TextView mServantTitle;
-    private ServantItem servantItem;
+    private int id;
     private ImageView mServantIcon;
     private TextView mServantName;
     private TextView mServantClassType;
@@ -50,7 +53,6 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
     private TextView mExNum;
     private TextView mNickName;
     private TextView mAttribute;
-    private ServantSkill servantSkillItem;
     private ImageView mSkillOneIv;
     private TextView mSkillOneName;
     private ImageView mSkillTwoIv;
@@ -65,6 +67,9 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
     private VideoView mTreasureVideo;
     private RelativeLayout mServantLl;
     private RelativeLayout mServantSourcePlan;
+    private ServantPresenter servantPresenter;
+    private ServantDetailBean.DataBean servantItem;
+    private ServantSkill servantSkill;
 
 
     @Override
@@ -137,37 +142,50 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
 
     @Override
     public void initData() {
-        servantItem = (ServantItem) getIntent().getSerializableExtra("servants");
-        servantSkillItem = (ServantSkill) getIntent().getSerializableExtra("servantskill");
+        id = getIntent().getIntExtra("id", -1);
 
-        //获取色卡数量
-        int arts_num = servantItem.getArts_num();
-        int buster_num = servantItem.getBuster_num();
-        int quick_num = servantItem.getQuick_num();
+        //暂时为了适配素材规划
+        servantSkill = (ServantSkill) getIntent().getSerializableExtra("servantSkill");
 
-        //获取色卡hit
-        setCardHit();
+        servantPresenter.getServantData(this.id);
+    }
 
-        //设置色卡
-        setCardBean(arts_num, buster_num, quick_num);
+    @Override
+    public void showServantData(ServantDetailBean body) {
+        String code = body.getCode();
+        servantItem = body.getData();
 
-        //设置头像等数据
-        setResouse();
+        if ("success".equals(code)) {
+            //获取色卡数量
+            int arts_num = servantItem.getArts_num();
+            int buster_num = servantItem.getBuster_num();
+            int quick_num = servantItem.getQuick_num();
 
-        //设置阵营
-        setAttribute();
+            //获取色卡hit
+            setCardHit();
 
-        //设置技能
-        setSkillData();
+            //设置色卡
+            setCardBean(arts_num, buster_num, quick_num);
+
+            //设置头像等数据
+            setResouse();
+
+            //设置阵营
+            setAttribute();
+
+            //设置技能
+            setSkillData();
 
 
-        //设置宝具
-        setTreasure();
+            //设置宝具
+            setTreasure();
 
-        mServantTitle.setText(servantItem.getName());
-        mNickName.setText(servantItem.getNickname());
-        ServantAdaper adapter = new ServantAdaper(this, mCardList);
-        mServantRv.setAdapter(adapter);
+            mServantTitle.setText(servantItem.getName());
+            mNickName.setText(servantItem.getNickname());
+            ServantAdaper adapter = new ServantAdaper(this, mCardList);
+            mServantRv.setAdapter(adapter);
+        }
+
     }
 
     //HANDLER 控制视屏dialog
@@ -191,7 +209,16 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
 
 
     private void setTreasure() {
-        String servant_treasure = subString(servantItem.getTreasure_coloe().toLowerCase());
+        String treasureColor = "";
+        int treasure_color = servantItem.getTreasure_color();
+        if (treasure_color == 1) {
+            treasureColor = "buster";
+        } else if (treasure_color == 2) {
+            treasureColor = "arts";
+        } else if (treasure_color == 3) {
+            treasureColor = "quick";
+        }
+        String servant_treasure = subString(treasureColor.toLowerCase());
         mTreasureTv.setText(servantItem.getTreasure() + "");
         mTreasureIv.setImageResource(CommonUtils.getResourceId(servant_treasure, this));
 
@@ -199,17 +226,17 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
     }
 
     private void setSkillData() {
-        String skill_one_img = subString(servantSkillItem.getSkill_one_img().toLowerCase());
-        String skill_two_img = subString(servantSkillItem.getSkill_two_img().toLowerCase());
-        String skill_three_img = subString(servantSkillItem.getSkill_three_img().toLowerCase());
+        String skill_one_img = subString(servantItem.getSkill_one_img().toLowerCase());
+        String skill_two_img = subString(servantItem.getSkill_two_img().toLowerCase());
+        String skill_three_img = subString(servantItem.getSkill_three_img().toLowerCase());
 
         mSkillOneIv.setImageResource(CommonUtils.getResourceId(skill_one_img, this));
         mSkillTwoIv.setImageResource(CommonUtils.getResourceId(skill_two_img, this));
         mSkillThreeIv.setImageResource(CommonUtils.getResourceId(skill_three_img, this));
 
-        mSkillOneName.setText(servantSkillItem.getSkill_one_name());
-        mSkillTwoName.setText(servantSkillItem.getSkill_two_name());
-        mSkillThreeName.setText(servantSkillItem.getSkill_three_name());
+        mSkillOneName.setText(servantItem.getSkill_one_name());
+        mSkillTwoName.setText(servantItem.getSkill_two_name());
+        mSkillThreeName.setText(servantItem.getSkill_three_name());
     }
 
 
@@ -264,11 +291,10 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
 
     private void setResouse() {
 
-        int resId = getResources().getIdentifier("image" + servantItem.getId(), "mipmap", getPackageName());
+        int resId = getResources().getIdentifier("image" + id, "mipmap", getPackageName());
         if (resId != 0) {
             mServantIcon.setImageResource(resId);
         } else {
-            int id = servantItem.getId();
             String num = CommonUtils.getId(id);
             //从fgowiki获取头像
             String url = new StringBuilder().append("http://file.fgowiki.fgowiki.com/fgo/head/").append(num).append(".jpg").toString();
@@ -283,7 +309,8 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
     @NonNull
     @Override
     public ServantPresenter createPresenter() {
-        return new ServantPresenter();
+        servantPresenter = new ServantPresenter();
+        return servantPresenter;
     }
 
     @Override
@@ -291,20 +318,23 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
         switch (view.getId()) {
             case R.id.servant_info_skill_one_ll:
                 Intent intent = new Intent(this, SkillActivity.class);
-                intent.putExtra("servantSkillItem", servantSkillItem);
+//                intent.putExtra("servantSkillItem", servantSkillItem);
                 intent.putExtra("skillSelect", "1");
+                intent.putExtra("id", id);
                 startActivity(intent);
                 break;
             case R.id.servant_info_skill_two_ll:
                 Intent intentTwo = new Intent(this, SkillActivity.class);
-                intentTwo.putExtra("servantSkillItem", servantSkillItem);
+//                intentTwo.putExtra("servantSkillItem", servantSkillItem);
                 intentTwo.putExtra("skillSelect", "2");
+                intentTwo.putExtra("id", id);
                 startActivity(intentTwo);
                 break;
             case R.id.servant_info_skill_three_ll:
                 Intent intentThree = new Intent(this, SkillActivity.class);
-                intentThree.putExtra("servantSkillItem", servantSkillItem);
+//                intentThree.putExtra("servantSkillItem", servantSkillItem);
                 intentThree.putExtra("skillSelect", "3");
+                intentThree.putExtra("id", id);
                 startActivity(intentThree);
                 break;
 
@@ -334,7 +364,7 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
 
             case R.id.hero_item_ll:
                 Intent intentFour = new Intent(this, ServantSourceActivity.class);
-                intentFour.putExtra("servantSkillItem", servantSkillItem);
+                intentFour.putExtra("id", id);
                 if ("Shielder".equals(servantItem.getClass_type())) {
                     intentFour.putExtra("isMaXiu", true);
                 } else {
@@ -346,7 +376,7 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
 
             case R.id.servant_source_plane_ll:
                 Intent intentFive = new Intent(this, ServantSourcePlanActivity.class);
-                intentFive.putExtra("servantSkillItem", servantSkillItem);
+                intentFive.putExtra("servantSkillItem", servantSkill);
                 if ("Shielder".equals(servantItem.getClass_type())) {
                     intentFive.putExtra("isMaXiu", true);
                 } else {
@@ -371,4 +401,6 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
         mTreasureVideo.requestFocus();
 
     }
+
+
 }
