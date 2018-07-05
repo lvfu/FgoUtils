@@ -2,4 +2,4 @@
 
 1.2018/05/23
 
-	取消图片识别	
+    Replace part of the data for the interface request
