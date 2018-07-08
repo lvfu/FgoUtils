@@ -11,12 +11,16 @@ import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
+import com.fgo.utils.adaper.HeroFragmentAdaper;
+import com.fgo.utils.bean.BaseCommonBean;
 import com.fgo.utils.bean.ServantDetailBean;
+import com.fgo.utils.bean.ServantListNBean;
 import com.fgo.utils.constant.GlobalData;
 import com.king.frame.mvp.base.QuickActivity;
 import com.fgo.utils.R;
@@ -68,7 +72,7 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
     private RelativeLayout mServantLl;
     private RelativeLayout mServantSourcePlan;
     private ServantPresenter servantPresenter;
-    private ServantDetailBean.DataBean servantItem;
+    private ServantDetailBean servantItem;
     private ServantSkill servantSkill;
 
 
@@ -151,11 +155,13 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
     }
 
     @Override
-    public void showServantData(ServantDetailBean body) {
-        String code = body.getCode();
-        servantItem = body.getData();
+    public void showServantData(BaseCommonBean<ServantDetailBean> body) {
 
-        if ("success".equals(code)) {
+        String respCode = body.getRespCode();
+        String respMsg = body.getRespMsg();
+        BaseCommonBean.BaseCommonData data = body.getData();
+        if ("success".equals(respCode)) {
+            servantItem = (ServantDetailBean) data.getModel();
             //获取色卡数量
             int arts_num = servantItem.getArts_num();
             int buster_num = servantItem.getBuster_num();
@@ -184,6 +190,9 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
             mNickName.setText(servantItem.getNickname());
             ServantAdaper adapter = new ServantAdaper(this, mCardList);
             mServantRv.setAdapter(adapter);
+
+        } else {
+            Toast.makeText(this, respMsg, Toast.LENGTH_SHORT).show();
         }
 
     }

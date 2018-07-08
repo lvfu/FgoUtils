@@ -35,10 +35,10 @@
     </string-array>
 
     <string-array name="sort_value">
-        <item>default_atk,asc</item>
-        <item>default_atk,desc</item>
-        <item>default_hp,asc</item>
-        <item>default_hp,desc</item>
+        <item>11</item>
+        <item>12</item>
+        <item>21</item>
+        <item>22</item>
     </string-array>
 
     <integer-array name="star_value">
@@ -60,14 +60,14 @@
     </string-array>
 
     <declare-styleable name="CropImageView">
-        <attr name="cropMaskColor" format="color"/>
-        <attr name="cropBorderColor" format="color"/>
-        <attr name="cropBorderWidth" format="dimension"/>
-        <attr name="cropFocusWidth" format="dimension"/>
-        <attr name="cropFocusHeight" format="dimension"/>
+        <attr name="cropMaskColor" format="color" />
+        <attr name="cropBorderColor" format="color" />
+        <attr name="cropBorderWidth" format="dimension" />
+        <attr name="cropFocusWidth" format="dimension" />
+        <attr name="cropFocusHeight" format="dimension" />
         <attr name="cropStyle" format="enum">
-            <enum name="rectangle" value="0"/>
-            <enum name="circle" value="1"/>
+            <enum name="rectangle" value="0" />
+            <enum name="circle" value="1" />
         </attr>
     </declare-styleable>
 </resources>

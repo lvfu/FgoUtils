@@ -5,6 +5,12 @@ import android.database.Cursor;
 import android.text.TextUtils;
 import android.widget.TextView;
 
+import com.fgo.utils.bean.BaseCommonBean;
+import com.fgo.utils.bean.ServantListBean;
+import com.fgo.utils.bean.ServantListNBean;
+import com.fgo.utils.bean.ServantSkillBean;
+import com.fgo.utils.constant.GlobalConstant;
+import com.fgo.utils.face.GetRequest_Interface;
 import com.king.frame.mvp.base.BasePresenter;
 import com.fgo.utils.R;
 import com.fgo.utils.bean.ServantItem;
@@ -15,176 +21,113 @@ import com.fgo.utils.utils.CommonUtils;
 import com.fgo.utils.utils.DbUtils;
 import com.fgo.utils.utils.SharedPreferencesUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class SearchPresenter extends BasePresenter<SearchView> {
-    private DBManager dbManager;
+
     private Context mContext;
-    private String keyWord;
-    private List<ServantItem> servantList = new ArrayList<>();
-    private List<ServantSkill> servantSkillList = new ArrayList<>();
+
 
     public SearchPresenter(Context context) {
         this.mContext = context;
-        dbManager = new DBManager(mContext);
+
     }
 
     public void searchServantsByKeyword(String keyWord) {
-        try {
-            dbManager.getDatabase();
-            Cursor cur;
-            keyWord = CommonUtils.tc2sc(keyWord);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GlobalConstant.PUBLIC_URL) // 设置 网络请求 Url
+                .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析(记得加入依赖)
+                .build();
 
-            if (!TextUtils.isEmpty(keyWord)) {
-                cur = dbManager.database.rawQuery("SELECT * FROM servants WHERE" +
-                                " name LIKE ? OR nickname LIKE ? ORDER BY CAST(id AS SIGNED) ASC",
-                        new String[]{"%" + keyWord + "%", "%" + keyWord + "%"});
-            } else {
-                cur = dbManager.database.rawQuery("SELECT * FROM servants ", null);
+        GetRequest_Interface request = retrofit.create(GetRequest_Interface.class);
 
-            }
+        //对 发送请求 进行封装
+        Call<BaseCommonBean<ServantListNBean>> call = request.getServantForName(keyWord, "v1.1");
 
-            servantList = CommonUtils.getServantList(cur);
+        call.enqueue(new Callback<BaseCommonBean<ServantListNBean>>() {
+            //请求成功时回调
+            @Override
+            public void onResponse(Call<BaseCommonBean<ServantListNBean>> call, Response<BaseCommonBean<ServantListNBean>> response) {
+                BaseCommonBean<ServantListNBean> body = response.body();
 
-            Cursor cur1 = null;
-            servantSkillList.clear();
-
-            for (int i = 0; i < servantList.size(); i++) {
-
-                int servantId = servantList.get(i).getId();
-
-                cur1 = dbManager.database.rawQuery("SELECT * FROM ServantsSkill WHERE "+
-                                " id = ? ORDER BY CAST(id AS SIGNED) ASC",
-
-                        new String[]{servantId+""});
-
-                List<ServantSkill> servantSkillData = CommonUtils.getServantSkillData(cur1);
-
-                servantSkillList.add(servantSkillData.get(0));
+                getView().setServantList(body);
 
             }
-            //技能素材表
 
-            if (cur != null) {
-                cur.close();
+            //请求失败时回调
+            @Override
+            public void onFailure(Call<BaseCommonBean<ServantListNBean>> call, Throwable throwable) {
+                System.out.println("连接失败");
             }
-            if (cur1 != null) {
-                cur1.close();
-            }
-
-            dbManager.closeDatabase();
-            getView().setServantList(servantList, servantSkillList);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-//            getView().showCharacter(ctx.getString(R.string.database_error),R.mipmap.altria_alter_b);
-        }
+        });
     }
 
 
+    /**
+     * 筛选
+     *
+     * @param classType
+     * @param star
+     * @param orderType
+     */
+    public void searchServantsByCondition(final String classType, final int star, final String orderType) {
 
-    public void searchServantsByCondition(final String classType,final int star,final String orderType) {
-        try{
-            if (!TextUtils.isEmpty(classType)) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GlobalConstant.PUBLIC_URL) // 设置 网络请求 Url
+                .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析(记得加入依赖)
+                .build();
 
-                dbManager.getDatabase();
-                Cursor cur;
-                String[] order = orderType.split(",");
-                boolean ifAllClass = false;//是否职阶不限
-                boolean ifAllStar = false;//是否星数不限
-                boolean ifMultiplier = false;//是否需要计算系数
-                //判断职阶
-                if (classType.equals("All")) {
-                    ifAllClass = true;
-                }
-                //判断星数
-                if (star == -1) {
-                    ifAllStar = true;
-                }
-                //判断排序方式
-                if (order.length == 3) {
-                    ifMultiplier = true;
-                }
-                //判断使用哪种sql语句
-                if (ifAllClass && ifAllStar && ifMultiplier) {
-                    cur = dbManager.database.rawQuery("SELECT a.*,(a.default_atk * b.multiplier) new_atk " +
-                                    " FROM servants a" +
-                                    " LEFT JOIN class b ON a.class_type = b.class_type" +
-                                    " ORDER BY CAST( new_atk AS SIGNED)" + order[1],
-                            null);
-                }else if (ifAllClass && ifMultiplier) {
-                    cur = dbManager.database.rawQuery("SELECT a.*,(a.default_atk * b.multiplier) new_atk " +
-                                    " FROM servants a" +
-                                    " LEFT JOIN class b ON a.class_type = b.class_type" +
-                                    " WHERE a.star = ?" +
-                                    " ORDER BY CAST( new_atk AS SIGNED)" + order[1],
-                            new String[]{star + ""});
-                }else if (ifAllStar && ifMultiplier) {
-                    cur = dbManager.database.rawQuery("SELECT a.*,(a.default_atk * b.multiplier) new_atk " +
-                                    " FROM servants a" +
-                                    " LEFT JOIN class b ON a.class_type = b.class_type" +
-                                    " WHERE a.class_type = ?" +
-                                    " ORDER BY CAST( new_atk AS SIGNED)" + order[1],
-                            new String[]{classType});
-                }else if (ifAllClass && ifAllStar) {
-                    cur = dbManager.database.rawQuery("SELECT * FROM servants ORDER BY CAST(" + order[0] +" AS SIGNED)" + order[1],
-                            null);
-                }else if (ifMultiplier) {
-                    cur = dbManager.database.rawQuery("SELECT a.*,(a.default_atk * b.multiplier) new_atk " +
-                                    " FROM servants a" +
-                                    " LEFT JOIN class b ON a.class_type = b.class_type" +
-                                    " WHERE a.class_type = ? AND star = ?" +
-                                    " ORDER BY CAST( new_atk AS SIGNED)" + order[1],
-                            new String[]{classType,star + ""});
-                }else if (ifAllStar) {
-                    cur = dbManager.database.rawQuery("SELECT * FROM servants WHERE class_type = ? ORDER BY CAST(" + order[0] +" AS SIGNED)" + order[1],
-                            new String[]{classType});
-                }else if (ifAllClass) {
-                    cur = dbManager.database.rawQuery("SELECT * FROM servants WHERE star = ? ORDER BY CAST(" + order[0] +" AS SIGNED)" + order[1],
-                            new String[]{star + ""});
-                }else{
-                    cur = dbManager.database.rawQuery("SELECT * FROM servants WHERE class_type = ? AND star = ? ORDER BY CAST(" + order[0] + " AS SIGNED)" + order[1],
-                            new String[]{classType, star + ""});
-                }
-                servantList =  CommonUtils.getServantList(cur);
+        GetRequest_Interface request = retrofit.create(GetRequest_Interface.class);
 
-                Cursor cur1 = null;
-                servantSkillList.clear();
+        JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObjectData = new JSONObject();
+        try {
+            jsonObjectData.put("classType", classType);
+            jsonObjectData.put("starCount", star + "");
+            jsonObjectData.put("OrderBy", orderType);
+            jsonObject.put("version", "v1.1");
+            jsonObject.put("bean", jsonObjectData);
 
-                for (int i = 0; i < servantList.size(); i++) {
-
-                    int servantId = servantList.get(i).getId();
-
-                    cur1 = dbManager.database.rawQuery("SELECT * FROM ServantsSkill WHERE "+
-                                    " id = ? ORDER BY CAST(id AS SIGNED) ASC",
-
-                            new String[]{servantId+""});
-
-                    List<ServantSkill> servantSkillData = CommonUtils.getServantSkillData(cur1);
-
-                    servantSkillList.add(servantSkillData.get(0));
-
-                }
-
-                if (cur1 != null) {
-                    cur1.close();
-                }
-
-                if (cur != null) {
-                    cur.close();
-                }
-                dbManager.closeDatabase();
-                getView().setServantList(servantList,servantSkillList);
-            }else{
-                servantList = null;
-                getView().setServantList(servantList,servantSkillList);
-            }
-        }catch (Exception e){
+        } catch (JSONException e) {
             e.printStackTrace();
-//            mView.showCharacter(ctx.getString(R.string.database_error),R.mipmap.altria_alter_b);
         }
+
+        RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), jsonObject.toString());
+
+        //对 发送请求 进行封装
+        Call<BaseCommonBean<ServantListNBean>> call = request.getServantFliter(body);
+
+        call.enqueue(new Callback<BaseCommonBean<ServantListNBean>>() {
+            //请求成功时回调
+            @Override
+            public void onResponse(Call<BaseCommonBean<ServantListNBean>> call, Response<BaseCommonBean<ServantListNBean>> response) {
+                BaseCommonBean body = response.body();
+
+                getView().setServantList(body);
+
+            }
+
+            //请求失败时回调
+            @Override
+            public void onFailure(Call<BaseCommonBean<ServantListNBean>> call, Throwable throwable) {
+                System.out.println("连接失败");
+            }
+        });
+
+
     }
 
 }

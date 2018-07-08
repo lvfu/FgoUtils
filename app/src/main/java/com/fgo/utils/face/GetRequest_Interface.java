@@ -1,8 +1,10 @@
 package com.fgo.utils.face;
 
+import com.fgo.utils.bean.BaseCommonBean;
 import com.fgo.utils.bean.ServantAdvancedBean;
 import com.fgo.utils.bean.ServantDetailBean;
 import com.fgo.utils.bean.ServantListBean;
+import com.fgo.utils.bean.ServantListNBean;
 import com.fgo.utils.bean.ServantSkillBean;
 import com.fgo.utils.bean.userBean;
 
@@ -24,7 +26,7 @@ public interface GetRequest_Interface {
     //http://47.96.105.170:8080/login_war/Servlet?username=jk&password=ll
     @Headers({"Content-type:application/json;charset=UTF-8"})
     @POST("fate/servant/servantList")
-    Call<ServantListBean> getCall(@Body RequestBody body);
+    Call<BaseCommonBean<ServantListNBean>> getCall(@Body RequestBody body);
 
     /**
      * 英灵详情
@@ -33,18 +35,39 @@ public interface GetRequest_Interface {
      * @return
      */
     @GET("fate/servant/servantDetail")
-    Call<ServantDetailBean> getServantDetail(@Query("id") String id);
+    Call<BaseCommonBean<ServantDetailBean>> getServantDetail(@Query("id") String id, @Query("version") String version);
 
     /**
      * 英灵技能
      */
     @GET("fate/skill/servantskill")
-    Call<ServantSkillBean> getServantSkill(@Query("id") int id, @Query("skill") String skill);
+    Call<BaseCommonBean<ServantSkillBean>> getServantSkill(@Query("id") int id, @Query("skill") String skill, @Query("version") String version);
 
     /**
      * 英灵进阶
      */
 
     @GET("fate/servant/servantAdvance")
-    Call<ServantAdvancedBean> getServantAdvanced(@Query("id") String id);
+    Call<BaseCommonBean<ServantAdvancedBean>> getServantAdvanced(@Query("id") String id, @Query("version") String version);
+
+    /**
+     * 筛选
+     *
+     * @param body
+     * @return
+     */
+    @Headers({"Content-type:application/json;charset=UTF-8"})
+    @POST("fate/search/servantfliter")
+    Call<BaseCommonBean<ServantListNBean>> getServantFliter(@Body RequestBody body);
+
+    /**
+     * 搜索名字
+     *
+     * @param
+     * @return
+     */
+
+    @GET("fate/search/servantsearch")
+    Call<BaseCommonBean<ServantListNBean>> getServantForName(@Query("keyword") String keyword, @Query("version") String version);
+
 }

@@ -8,8 +8,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.fgo.utils.adaper.HeroFragmentAdaper;
+import com.fgo.utils.bean.BaseCommonBean;
 import com.fgo.utils.bean.ServantDetailBean;
+import com.fgo.utils.bean.ServantListNBean;
 import com.fgo.utils.bean.ServantSkillBean;
 import com.king.frame.mvp.base.QuickActivity;
 import com.fgo.utils.R;
@@ -40,7 +44,7 @@ public class SkillActivity extends QuickActivity<SkillView, SkillPresenter> impl
     private LinearLayout mSkillSourceLl;
     private SkillPresenter skillPresenter;
     private int id;
-    private ServantSkillBean.DataBean servantSkillData;
+    private ServantSkillBean servantSkillData;
 
 
     @Override
@@ -82,12 +86,14 @@ public class SkillActivity extends QuickActivity<SkillView, SkillPresenter> impl
     }
 
     @Override
-    public void showServantSkillData(ServantSkillBean body) {
-        String code = body.getCode();
+    public void showServantSkillData(BaseCommonBean<ServantSkillBean> body) {
 
-        if ("success".equals(code)) {
 
-            servantSkillData = body.getData();
+        String respCode = body.getRespCode();
+        String respMsg = body.getRespMsg();
+        BaseCommonBean.BaseCommonData data = body.getData();
+        if ("success".equals(respCode)) {
+            servantSkillData = (ServantSkillBean) data.getModel();
 
             //设置title数据
             setTitleData();
@@ -99,8 +105,9 @@ public class SkillActivity extends QuickActivity<SkillView, SkillPresenter> impl
             setSkillSourdeData();
 
         } else {
-
+            Toast.makeText(this, respMsg, Toast.LENGTH_SHORT).show();
         }
+
 
     }
 

@@ -3,42 +3,7 @@ package com.fgo.utils.bean;
 public class ServantDetailBean {
 
 
-    /**
-     * data : {"id":0,"buster_num":2,"arts_num":2,"quick_num":1,"treasure_color":2,"attribute":1,"arts_hit":2,"buster_hit":1,"quick_hit":2,"ex_hit":3,"name":"玛修・基列莱特","nickname":"女主,盾娘,学妹,C奶,盾子","treasure":"如今仍是遥远的理想之城","class_type":"Shielder","skill_one_name":"荣光不败的雪花之壁","skill_one_img":"Def_Up.png","skill_two_name":"时为朦胧的白垩之壁","skill_two_img":"Duang.png","skill_three_name":"决意奋起之盾","skill_three_img":"Fuck_me.png"}
-     * code : success
-     * msg : 数据获取成功
-     */
-
-    private DataBean data;
-    private String code;
-    private String msg;
-
-    public DataBean getData() {
-        return data;
-    }
-
-    public void setData(DataBean data) {
-        this.data = data;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public static class DataBean {
-        /**
+        /*
          * id : 0
          * buster_num : 2
          * arts_num : 2
@@ -241,5 +206,5 @@ public class ServantDetailBean {
         public void setSkill_three_img(String skill_three_img) {
             this.skill_three_img = skill_three_img;
         }
-    }
+
 }

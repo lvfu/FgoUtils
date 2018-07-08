@@ -1,7 +1,9 @@
 package com.fgo.utils.mvp.presenter;
 
+import com.fgo.utils.bean.BaseCommonBean;
 import com.fgo.utils.bean.ServantItem;
 import com.fgo.utils.bean.ServantListBean;
+import com.fgo.utils.bean.ServantListNBean;
 import com.fgo.utils.bean.userBean;
 import com.fgo.utils.constant.GlobalConstant;
 import com.fgo.utils.face.GetRequest_Interface;
@@ -39,28 +41,34 @@ public class HeroPresenter extends BasePresenter<HeroView> {
         GetRequest_Interface request = retrofit.create(GetRequest_Interface.class);
 
         JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObjectData = new JSONObject();
         try {
-            jsonObject.put("pageIndex", "1");
-            jsonObject.put("pageSize", "20");
+            jsonObjectData.put("pageIndex", "1");
+            jsonObjectData.put("pageSize", "20");
+
+            jsonObject.put("version", "v1.1");
+            jsonObject.put("bean", jsonObjectData);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+
         RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), jsonObject.toString());
         //对 发送请求 进行封装
-        Call<ServantListBean> call = request.getCall(body);
+        Call<BaseCommonBean<ServantListNBean>> call = request.getCall(body);
 
-        call.enqueue(new Callback<ServantListBean>() {
+        call.enqueue(new Callback<BaseCommonBean<ServantListNBean>>() {
             //请求成功时回调
             @Override
-            public void onResponse(Call<ServantListBean> call, Response<ServantListBean> response) {
-                ServantListBean body = response.body();
+            public void onResponse(Call<BaseCommonBean<ServantListNBean>> call, Response<BaseCommonBean<ServantListNBean>> response) {
+                BaseCommonBean<ServantListNBean> body = response.body();
                 getView().showServantList(body);
             }
 
             //请求失败时回调
             @Override
-            public void onFailure(Call<ServantListBean> call, Throwable throwable) {
+            public void onFailure(Call<BaseCommonBean<ServantListNBean>> call, Throwable throwable) {
                 System.out.println("连接失败");
             }
         });

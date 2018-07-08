@@ -15,6 +15,7 @@ import com.fgo.utils.R;
 import com.fgo.utils.activity.ServantActivity;
 import com.fgo.utils.bean.ServantItem;
 import com.fgo.utils.bean.ServantListBean;
+import com.fgo.utils.bean.ServantListNBean;
 import com.fgo.utils.bean.ServantSkill;
 import com.fgo.utils.constant.GlobalData;
 
@@ -27,19 +28,19 @@ import java.util.List;
 
 public class HeroFragmentAdaper extends RecyclerView.Adapter {
 
-    private List<ServantListBean.DataBean> servantList = new ArrayList<>();
-    private List<ServantSkill> servantSkillList = new ArrayList<>();
+    private List<ServantListNBean> servantList;
+
     private Context mContext;
 
-    public HeroFragmentAdaper(List<ServantListBean.DataBean> list, List<ServantSkill> skillList, Context mContext) {
+    public HeroFragmentAdaper(List<ServantListNBean> list, Context mContext) {
+        servantList = new ArrayList<>();
         servantList.addAll(list);
-        servantSkillList.addAll(skillList);
+
         this.mContext = mContext;
     }
 
     public void setEmptyData() {
         servantList = null;
-        servantSkillList = null;
     }
 
     @Override
@@ -53,11 +54,11 @@ public class HeroFragmentAdaper extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         HeroFragmentAdaper.HeroFragmentHolder holder1 = (HeroFragmentAdaper.HeroFragmentHolder) holder;
-        if (servantList == null || servantSkillList == null) {
+        if (servantList == null) {
             return;
         }
 
-        final ServantListBean.DataBean item = servantList.get(position);
+        final ServantListNBean item = servantList.get(position);
         int resId = mContext.getResources().getIdentifier("image" + item.getId(), "mipmap", mContext.getPackageName());
         if (resId != 0) {
             holder1.item_hero_icon.setImageResource(resId);

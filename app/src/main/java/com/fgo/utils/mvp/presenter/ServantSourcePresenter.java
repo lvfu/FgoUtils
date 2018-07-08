@@ -1,5 +1,6 @@
 package com.fgo.utils.mvp.presenter;
 
+import com.fgo.utils.bean.BaseCommonBean;
 import com.fgo.utils.bean.ServantAdvancedBean;
 import com.fgo.utils.bean.ServantSkillBean;
 import com.fgo.utils.constant.GlobalConstant;
@@ -28,19 +29,19 @@ public class ServantSourcePresenter extends BasePresenter<ServantSourceView> {
         GetRequest_Interface request = retrofit.create(GetRequest_Interface.class);
 
         //对 发送请求 进行封装
-        Call<ServantAdvancedBean> call = request.getServantAdvanced(id + "");
+        Call<BaseCommonBean<ServantAdvancedBean>> call = request.getServantAdvanced(id + "", "v1.1");
 
-        call.enqueue(new Callback<ServantAdvancedBean>() {
+        call.enqueue(new Callback<BaseCommonBean<ServantAdvancedBean>>() {
             //请求成功时回调
             @Override
-            public void onResponse(Call<ServantAdvancedBean> call, Response<ServantAdvancedBean> response) {
-                ServantAdvancedBean body = response.body();
+            public void onResponse(Call<BaseCommonBean<ServantAdvancedBean>> call, Response<BaseCommonBean<ServantAdvancedBean>> response) {
+                BaseCommonBean<ServantAdvancedBean> body = response.body();
                 getView().showServantAdvancedData(body);
             }
 
             //请求失败时回调
             @Override
-            public void onFailure(Call<ServantAdvancedBean> call, Throwable throwable) {
+            public void onFailure(Call<BaseCommonBean<ServantAdvancedBean>> call, Throwable throwable) {
                 System.out.println("连接失败");
             }
         });

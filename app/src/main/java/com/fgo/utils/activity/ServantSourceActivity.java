@@ -6,8 +6,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.fgo.utils.adaper.HeroFragmentAdaper;
+import com.fgo.utils.bean.BaseCommonBean;
 import com.fgo.utils.bean.ServantAdvancedBean;
+import com.fgo.utils.bean.ServantListNBean;
 import com.king.frame.mvp.base.QuickActivity;
 import com.fgo.utils.R;
 import com.fgo.utils.adaper.ServantImgAdaper;
@@ -39,7 +43,7 @@ public class ServantSourceActivity extends QuickActivity<ServantSourceView, Serv
     private ServantSourcePresenter servantSourcePresenter;
     private int id;
     private ServantAdvancedBean servantSkillData;
-    private ServantAdvancedBean.DataBean servantSkillItem;
+    private ServantAdvancedBean servantSkillItem;
 
 
     @Override
@@ -80,18 +84,24 @@ public class ServantSourceActivity extends QuickActivity<ServantSourceView, Serv
     }
 
     @Override
-    public void showServantAdvancedData(ServantAdvancedBean bean) {
-        String code = bean.getCode();
-        if ("success".equals(code)) {
-            servantSkillItem = bean.getData();
+    public void showServantAdvancedData(BaseCommonBean<ServantAdvancedBean> body) {
+
+
+        String respCode = body.getRespCode();
+        String respMsg = body.getRespMsg();
+        BaseCommonBean.BaseCommonData data = body.getData();
+        if ("success".equals(respCode)) {
+            servantSkillItem = (ServantAdvancedBean) data.getModel();
             //设置技能资源数据
             setServantSourceData();
             //图片资源数据
             setServantImgData();
 
         } else {
-
+            Toast.makeText(this, respMsg, Toast.LENGTH_SHORT).show();
         }
+
+
 
 
     }

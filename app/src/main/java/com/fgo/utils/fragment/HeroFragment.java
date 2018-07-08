@@ -7,7 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.fgo.utils.bean.BaseCommonBean;
 import com.fgo.utils.bean.ServantListBean;
+import com.fgo.utils.bean.ServantListNBean;
 import com.fgo.utils.constant.GlobalData;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -21,6 +23,7 @@ import com.fgo.utils.bean.ServantSkill;
 import com.fgo.utils.mvp.presenter.HeroPresenter;
 import com.fgo.utils.mvp.view.HeroView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -84,16 +87,21 @@ public class HeroFragment extends QuickFragment<HeroView, HeroPresenter> impleme
     }
 
     @Override
-    public void showServantList(ServantListBean servantBean) {
-        List<ServantSkill> servantSkillList = ((MainActivity) getActivity()).getServantSkillList();
-        String code = servantBean.getCode();
-        String msg = servantBean.getMsg();
-        if ("success".equals(code)) {
-            List<ServantListBean.DataBean> servantList = servantBean.getData();
-            heroFragmentAdaper = new HeroFragmentAdaper(servantList, servantSkillList, getContext());
+    public void showServantList(BaseCommonBean<ServantListNBean> body) {
+
+
+        String respCode = body.getRespCode();
+        String respMsg = body.getRespMsg();
+        BaseCommonBean.BaseCommonData data = body.getData();
+        if ("success".equals(respCode)) {
+
+            List<ServantListNBean> list = data.getList();
+            heroFragmentAdaper = new HeroFragmentAdaper(list, getContext());
             seventRv.setAdapter(heroFragmentAdaper);
 
         } else {
+
+            Toast.makeText(getContext(), respMsg, Toast.LENGTH_SHORT).show();
 
         }
 

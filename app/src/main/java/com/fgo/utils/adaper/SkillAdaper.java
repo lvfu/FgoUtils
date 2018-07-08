@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 public class SkillAdaper extends RecyclerView.Adapter {
-    private ServantSkillBean.DataBean servantSkillItem;
+    private ServantSkillBean servantSkillItem;
     private SkillSmallBean skillBean;
     private Context mContext;
     private final List<String> skillEffect;
@@ -31,7 +31,7 @@ public class SkillAdaper extends RecyclerView.Adapter {
     private int VIEW_NORMAL = 1;
     private LayoutInflater inflater;
 
-    public SkillAdaper(ServantSkillBean.DataBean servantSkillItem, SkillSmallBean skillbean, Context context) {
+    public SkillAdaper(ServantSkillBean servantSkillItem, SkillSmallBean skillbean, Context context) {
         this.servantSkillItem = servantSkillItem;
         this.skillBean = skillbean;
         mContext = context;

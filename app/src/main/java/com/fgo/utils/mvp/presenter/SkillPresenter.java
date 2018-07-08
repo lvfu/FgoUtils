@@ -1,5 +1,6 @@
 package com.fgo.utils.mvp.presenter;
 
+import com.fgo.utils.bean.BaseCommonBean;
 import com.fgo.utils.bean.ServantDetailBean;
 import com.fgo.utils.bean.ServantSkillBean;
 import com.fgo.utils.constant.GlobalConstant;
@@ -32,19 +33,19 @@ public class SkillPresenter extends BasePresenter<SkillView> {
         GetRequest_Interface request = retrofit.create(GetRequest_Interface.class);
 
         //对 发送请求 进行封装
-        Call<ServantSkillBean> call = request.getServantSkill(id, skill);
+        Call<BaseCommonBean<ServantSkillBean>> call = request.getServantSkill(id, skill,"v1.1");
 
-        call.enqueue(new Callback<ServantSkillBean>() {
+        call.enqueue(new Callback<BaseCommonBean<ServantSkillBean>>() {
             //请求成功时回调
             @Override
-            public void onResponse(Call<ServantSkillBean> call, Response<ServantSkillBean> response) {
-                ServantSkillBean body = response.body();
+            public void onResponse(Call<BaseCommonBean<ServantSkillBean>> call, Response<BaseCommonBean<ServantSkillBean>> response) {
+                BaseCommonBean<ServantSkillBean> body = response.body();
                 getView().showServantSkillData(body);
             }
 
             //请求失败时回调
             @Override
-            public void onFailure(Call<ServantSkillBean> call, Throwable throwable) {
+            public void onFailure(Call<BaseCommonBean<ServantSkillBean>> call, Throwable throwable) {
                 System.out.println("连接失败");
             }
         });

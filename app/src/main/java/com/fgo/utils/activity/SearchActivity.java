@@ -22,6 +22,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fgo.utils.bean.BaseCommonBean;
+import com.fgo.utils.bean.ServantListNBean;
 import com.king.frame.mvp.base.QuickActivity;
 import com.fgo.utils.R;
 import com.fgo.utils.adaper.HeroFragmentAdaper;
@@ -61,9 +63,9 @@ public class SearchActivity extends QuickActivity<SearchView, SearchPresenter> i
     private String keyWord;
     private HeroFragmentAdaper heroFragmentAdaper;
     private TextView mSearchServantTv;
-    private String selectSortValue ;
+    private String selectSortValue;
     private int selectStarValue = -1;
-    private String selectClassTypeValue ;
+    private String selectClassTypeValue;
     private String selectStar;
     private String selectSort;
 
@@ -230,7 +232,7 @@ public class SearchActivity extends QuickActivity<SearchView, SearchPresenter> i
 
             //设置默认
             selectStarValue = -1;
-            selectSortValue = "id,asc";
+            selectSortValue = "11";
 
         }
         if (chooseStar) {
@@ -241,7 +243,7 @@ public class SearchActivity extends QuickActivity<SearchView, SearchPresenter> i
             mSearchSxStar.setTextColor(Color.WHITE);
             //设置默认
             if (TextUtils.isEmpty(selectSortValue)) {
-                selectSortValue = "id,asc";
+                selectSortValue = "11";
             }
         }
         if (chooseSort) {
@@ -251,7 +253,7 @@ public class SearchActivity extends QuickActivity<SearchView, SearchPresenter> i
             mSearchSxSort.setBackgroundResource(R.mipmap.btn_select_bg);
             mSearchSxSort.setTextColor(Color.WHITE);
             //设置默认
-            if (selectStarValue == -1){
+            if (selectStarValue == -1) {
                 selectStarValue = -1;
             }
 
@@ -276,9 +278,9 @@ public class SearchActivity extends QuickActivity<SearchView, SearchPresenter> i
 
                 break;
             case R.id.search_include_sx_star:
-                if (mSearchSxClassType.getText().equals("职介")){
+                if (mSearchSxClassType.getText().equals("职介")) {
                     Toast.makeText(this, "请先选择阶职", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     chooseClassType = false;
                     chooseStar = true;
                     chooseSort = false;
@@ -291,10 +293,10 @@ public class SearchActivity extends QuickActivity<SearchView, SearchPresenter> i
 
                 break;
             case R.id.search_include_sx_sort:
-                if (mSearchSxClassType.getText().equals("职介")){
+                if (mSearchSxClassType.getText().equals("职介")) {
                     Toast.makeText(this, "请先选择阶职", Toast.LENGTH_SHORT).show();
 
-                }else {
+                } else {
                     chooseClassType = false;
                     chooseStar = false;
                     chooseSort = true;
@@ -314,10 +316,10 @@ public class SearchActivity extends QuickActivity<SearchView, SearchPresenter> i
                     mSearchSxClassType.setText("职介");
                     mSearchSxClassType.setTextColor(getResources().getColor(R.color.fund_dialog_border_text_color));
                     mSearchSxClassType.setBackgroundResource(R.mipmap.no_select_bg);
-                    mSearchSxSort.setText("星级");
+                    mSearchSxSort.setText("排序");
                     mSearchSxSort.setTextColor(getResources().getColor(R.color.fund_dialog_border_text_color));
                     mSearchSxSort.setBackgroundResource(R.mipmap.no_select_bg);
-                    mSearchSxStar.setText("排序");
+                    mSearchSxStar.setText("星级");
                     mSearchSxStar.setTextColor(getResources().getColor(R.color.fund_dialog_border_text_color));
                     mSearchSxStar.setBackgroundResource(R.mipmap.no_select_bg);
                     mSpinerPopStar.setSelect(-1);
@@ -339,6 +341,7 @@ public class SearchActivity extends QuickActivity<SearchView, SearchPresenter> i
 
 
                 break;
+
             case R.id.activity_search_tv:
                 keyWord = etValue(mSearchServant);
                 getPresenter().searchServantsByKeyword(keyWord);
@@ -372,12 +375,29 @@ public class SearchActivity extends QuickActivity<SearchView, SearchPresenter> i
     }
 
     @Override
-    public void setServantList(List<ServantItem> servantList, List<ServantSkill> servantSkillList) {
-        if (servantList == null || servantSkillList == null) {
-            Toast.makeText(this, "请输入关键字", Toast.LENGTH_SHORT).show();
-            return;
+    public void setServantList(BaseCommonBean body) {
+        String respCode = body.getRespCode();
+        String respMsg = body.getRespMsg();
+        BaseCommonBean.BaseCommonData data = body.getData();
+        if ("success".equals(respCode)) {
+            List<ServantListNBean> list = data.getList();
+            if (list != null && list.size() > 0) {
+                heroFragmentAdaper = new HeroFragmentAdaper(list, this);
+
+                mSearchRv.setAdapter(heroFragmentAdaper);
+            } else {
+                Toast.makeText(this, "木有此类英灵", Toast.LENGTH_SHORT).show();
+                heroFragmentAdaper = new HeroFragmentAdaper(new ArrayList<ServantListNBean>(), this);
+
+                mSearchRv.setAdapter(heroFragmentAdaper);
+
+            }
+
+
+        } else {
+            Toast.makeText(this, respMsg, Toast.LENGTH_SHORT).show();
         }
-//        heroFragmentAdaper = new HeroFragmentAdaper(servantList, servantSkillList, getContext());
-        mSearchRv.setAdapter(heroFragmentAdaper);
+
+
     }
 }

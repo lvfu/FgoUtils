@@ -1,8 +1,10 @@
 package com.fgo.utils.mvp.presenter;
 
+import com.fgo.utils.bean.BaseCommonBean;
 import com.fgo.utils.bean.ServantDetailBean;
 import com.fgo.utils.bean.ServantItem;
 import com.fgo.utils.bean.ServantListBean;
+import com.fgo.utils.bean.ServantListNBean;
 import com.fgo.utils.constant.GlobalConstant;
 import com.fgo.utils.face.GetRequest_Interface;
 import com.king.frame.mvp.base.BasePresenter;
@@ -35,19 +37,19 @@ public class ServantPresenter extends BasePresenter<ServantView> {
         GetRequest_Interface request = retrofit.create(GetRequest_Interface.class);
 
         //对 发送请求 进行封装
-        Call<ServantDetailBean> call = request.getServantDetail(id + "");
+        Call<BaseCommonBean<ServantDetailBean>> call = request.getServantDetail(id + "","v1.1");
 
-        call.enqueue(new Callback<ServantDetailBean>() {
+        call.enqueue(new Callback<BaseCommonBean<ServantDetailBean>>() {
             //请求成功时回调
             @Override
-            public void onResponse(Call<ServantDetailBean> call, Response<ServantDetailBean> response) {
-                ServantDetailBean body = response.body();
+            public void onResponse(Call<BaseCommonBean<ServantDetailBean>> call, Response<BaseCommonBean<ServantDetailBean>> response) {
+                BaseCommonBean<ServantDetailBean> body = response.body();
                 getView().showServantData(body);
             }
 
             //请求失败时回调
             @Override
-            public void onFailure(Call<ServantDetailBean> call, Throwable throwable) {
+            public void onFailure(Call<BaseCommonBean<ServantDetailBean>> call, Throwable throwable) {
                 System.out.println("连接失败");
             }
         });
