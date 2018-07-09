@@ -87,5 +87,10 @@
         layout="@layout/regeist_item"
         android:visibility="gone" />
 
+    <include
+        android:id="@+id/persion_login_ll"
+        layout="@layout/login_item"
+        android:visibility="gone" />
+
 
 </LinearLayout>

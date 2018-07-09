@@ -64,8 +64,8 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
 
     private PersonPresenter personPresenter;
     private CircleImageView mCircleImageView;
-    private TextView mAddAccoumtTv;
-    private LinearLayout mRegeistLl1, mNormalLl1;
+    private TextView mAddAccoumtTv, mLoginTv, mToRegeistTv;
+    private LinearLayout mRegeistLl1, mNormalLl1, mLoginl1;
 
     @Override
     public int getRootViewId() {
@@ -85,12 +85,16 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
         mAddAccoumtTv = findView(R.id.persion_no_account_tv);
         mRegeistLl1 = findView(R.id.persion_regeist_ll);
         mNormalLl1 = findView(R.id.persion_normal_ll);
-
+        mLoginl1 = findView(R.id.persion_login_ll);
+        mLoginTv = findView(R.id.persion_regeist_login_tv);
+        mToRegeistTv = findView(R.id.persion_login_toregeist_tv);
         setOnClick();
     }
 
     private void setOnClick() {
         mAddAccoumtTv.setOnClickListener(this);
+        mLoginTv.setOnClickListener(this);
+        mToRegeistTv.setOnClickListener(this);
     }
 
     @Override
@@ -112,10 +116,25 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
                 if (mRegeistLl1.getVisibility() == View.VISIBLE) {
                     mRegeistLl1.setVisibility(View.GONE);
                     mNormalLl1.setVisibility(View.VISIBLE);
+                    mLoginl1.setVisibility(View.GONE);
+
                 } else {
                     mRegeistLl1.setVisibility(View.VISIBLE);
-                    mNormalLl1.setVisibility(View.GONE );
+                    mNormalLl1.setVisibility(View.GONE);
+                    mLoginl1.setVisibility(View.GONE);
                 }
+                break;
+
+            case R.id.persion_regeist_login_tv:
+                mRegeistLl1.setVisibility(View.GONE);
+                mNormalLl1.setVisibility(View.GONE);
+                mLoginl1.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.persion_login_toregeist_tv:
+                mRegeistLl1.setVisibility(View.VISIBLE);
+                mNormalLl1.setVisibility(View.GONE);
+                mLoginl1.setVisibility(View.GONE);
                 break;
         }
     }

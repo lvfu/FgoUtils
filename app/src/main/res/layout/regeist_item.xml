@@ -29,6 +29,7 @@
             android:layout_marginTop="30dp">
 
             <TextView
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -43,7 +44,10 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/edit_gray_boder" />
+                android:background="@drawable/edit_gray_boder"
+                android:hint="用户名为展示信息"
+                android:paddingLeft="10dp"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -68,15 +72,69 @@
                 android:layout_marginLeft="45dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/edit_gray_boder" />
+                android:background="@drawable/edit_gray_boder"
+                android:hint="账号用于登陆"
+                android:paddingLeft="10dp"
+                android:textSize="12sp" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/persion_regeist_pwd_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/persion_regeist_accunt_rl"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:text="密码:"
+                android:textSize="15sp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="45dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_gray_boder"
+                android:hint="密码将用于找回账号"
+                android:paddingLeft="10dp"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/persion_regeist_ts_tv"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/persion_regeist_pwd_rl"
+            android:layout_marginTop="50dp">
+
+            <TextView
+                android:id="@+id/persion_regeist_login_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="5dp"
+                android:text="已有账号？去登陆"
+                android:textSize="13sp" />
+
+        </RelativeLayout>
 
 
         <Button
+            android:layout_marginTop="100dp"
             android:id="@+id/persion_regeist_finish_btn"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/persion_regeist_ts_tv"
             android:background="@color/google_red"
             android:text="提交"
             android:textColor="@color/google_write" />
