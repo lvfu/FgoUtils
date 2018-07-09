@@ -37,7 +37,10 @@
 
     <color name="pop_folder_view_background">#C000</color>
     <color name="pop_folder_bottom_view_background">#0000</color>
-    <color name="topTitleColor">#F05050</color>
+    <color name="topTitleColor">#FFFFFF</color>
     <color name="top_bg_colort">#00000000</color>
     <color name="title_stuats">#3F000000</color>
+
+
+    <color name="tar_red">#ea5035</color>
 </resources>

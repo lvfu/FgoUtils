@@ -51,7 +51,7 @@ dependencies {
     implementation files('libs/ZHConverter.jar')
     //eventbus
     compile 'org.greenrobot:eventbus:3.0.0'
-    
+
     // Retrofit库
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     // Okhttp库

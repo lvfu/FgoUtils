@@ -23,7 +23,6 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate( savedInstanceState);
         setContentView( getRootViewId() );
-
         ActivityCollector.addActivity(this);
         initUI();
         initData();

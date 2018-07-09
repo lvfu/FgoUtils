@@ -16,7 +16,7 @@
         <item name="android:layout_height">50dp</item>
         <item name="android:background">@color/google_red</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColor">#fff</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -87,5 +87,24 @@
 
     <style name="SuperCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/selector_item_checked</item>
+    </style>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="civ_border_width" format="dimension" />
+        <attr name="civ_border_color" format="color" />
+        <attr name="civ_border_overlay" format="boolean" />
+        <attr name="civ_fill_color" format="color" />
+    </declare-styleable>
+
+
+    <style name="persion_normal_item_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:drawablePadding">16dp</item>
+        <item name="android:drawableRight">@mipmap/fragmentation_ic_right</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
     </style>
 </resources>

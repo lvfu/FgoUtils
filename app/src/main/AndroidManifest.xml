@@ -42,8 +42,8 @@
             android:name=".activity.SearchActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".activity.ServantSourcePlanActivity" />
-        <activity android:name=".MainActivity"></activity>
-
+        <activity android:name=".MainActivity" />
+        <activity android:name=".sql.SqlInsertActivity"></activity>
     </application>
 
 </manifest>

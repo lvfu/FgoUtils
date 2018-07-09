@@ -10,6 +10,4 @@ import com.king.frame.mvp.base.BaseView;
 
 public interface PersonView extends BaseView {
 
-
-    void showData(userBean body);
 }

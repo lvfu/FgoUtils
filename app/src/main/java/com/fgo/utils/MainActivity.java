@@ -3,6 +3,7 @@ package com.fgo.utils;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+import com.fgo.utils.base.SytemTar;
 import com.hjm.bottomtabbar.BottomTabBar;
 import com.king.frame.mvp.base.QuickActivity;
 import com.fgo.utils.bean.ServantItem;
@@ -40,7 +41,7 @@ public class MainActivity extends QuickActivity<IIPAddrView, IPAddrPresenter> im
     @Override
     public void initUI() {
         ButterKnife.bind(this);
-
+//        SytemTar.getInstance().applyKitKatTranslucency(this);//状态栏
         StatusBarUtil.setColor(this, getResources().getColor(R.color.google_red), 0);
         initBottomNavigation();
 
