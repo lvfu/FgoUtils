@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.fgo.utils.R;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class ServantImgChildAdaper extends RecyclerView.Adapter {
 
     public ServantImgChildAdaper(Context context, List<String> list, int posi) {
 
-        this.imgurlList.addAll(list) ;
+        this.imgurlList.addAll(list);
         mContext = context;
         inflater = LayoutInflater.from(mContext);
         url = imgurlList.get(posi);
@@ -44,8 +45,7 @@ public class ServantImgChildAdaper extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         SkillSourceChildHolder skillSourceChildHolder = (SkillSourceChildHolder) holder;
-
-        Glide.with(mContext.getApplicationContext()).load(url).error(R.mipmap.ic_launcher).into(skillSourceChildHolder.mSkillChildBac);
+        Glide.with(mContext.getApplicationContext()).load(url).into(skillSourceChildHolder.mSkillChildBac);
     }
 
     @Override

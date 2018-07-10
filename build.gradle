@@ -4,6 +4,7 @@ buildscript {
     repositories {
         jcenter()
         maven { url 'https://maven.google.com' }
+        google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
@@ -21,7 +22,8 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven { url 'https://maven.google.com' }
+        maven { url 'https://jitpack.io' }
+        google()
     }
 }
 
@@ -31,7 +33,7 @@ task clean(type: Delete) {
 
 allprojects {
     tasks.withType(Javadoc) {
-        options{
+        options {
             encoding "UTF-8"
             charSet 'UTF-8'
             links "http://docs.oracle.com/javase/8/docs/api"

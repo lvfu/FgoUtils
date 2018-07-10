@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.fgo.utils.MainActivity;
 import com.fgo.utils.R;
 import com.fgo.utils.utils.PermissionUtils;
@@ -56,7 +57,8 @@ public class SplashActivity extends AppCompatActivity {
 
     private void initPermission() {
         if (Build.VERSION.SDK_INT < 23) {
-            Glide.with(getApplicationContext()).load(url).error(R.mipmap.ic_launcher).into(mSplashIv);
+
+            Glide.with(getApplicationContext()).load(url).into(mSplashIv);
 
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -74,7 +76,7 @@ public class SplashActivity extends AppCompatActivity {
             map.put(permissionArray[1], "读写权限,");
 
             if (PermissionUtils.checkPermissionArray(this, permissionArray)) {
-                Glide.with(getApplicationContext()).load(url).error(R.mipmap.ic_launcher).into(mSplashIv);
+                Glide.with(getApplicationContext()).load(url).into(mSplashIv);
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -98,7 +100,8 @@ public class SplashActivity extends AppCompatActivity {
                 if (PermissionUtils.verifyPermissions(grantResults)) {
                     // Permission Granted
                     // do you action
-                    Glide.with(getApplicationContext()).load(url).error(R.mipmap.ic_launcher).into(mSplashIv);
+
+                    Glide.with(getApplicationContext()).load(url).into(mSplashIv);
 
                     new Handler().postDelayed(new Runnable() {
                         @Override

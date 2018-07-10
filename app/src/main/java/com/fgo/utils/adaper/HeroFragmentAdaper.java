@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.fgo.utils.R;
 import com.fgo.utils.activity.ServantActivity;
 import com.fgo.utils.bean.ServantItem;
@@ -73,7 +74,8 @@ public class HeroFragmentAdaper extends RecyclerView.Adapter {
             }
             //从fgowiki获取头像
             String url = new StringBuilder().append("http://file.fgowiki.fgowiki.com/fgo/head/").append(num).append(".jpg").toString();
-            Glide.with(mContext.getApplicationContext()).load(url).error(R.mipmap.ic_launcher).into(holder1.item_hero_icon);
+
+            Glide.with(mContext.getApplicationContext()).load(url).into(holder1.item_hero_icon);
 
         }
 

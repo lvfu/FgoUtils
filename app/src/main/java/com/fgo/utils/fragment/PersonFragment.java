@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.fgo.utils.base.CircleImageView;
 import com.fgo.utils.bean.userBean;
 import com.fgo.utils.constant.GlobalConstant;
@@ -35,6 +37,10 @@ import com.fgo.utils.R;
 import com.fgo.utils.db.DBManager;
 import com.fgo.utils.mvp.presenter.PersonPresenter;
 import com.fgo.utils.mvp.view.PersonView;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -66,6 +72,7 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
     private CircleImageView mCircleImageView;
     private TextView mAddAccoumtTv, mLoginTv, mToRegeistTv;
     private LinearLayout mRegeistLl1, mNormalLl1, mLoginl1;
+    List<LocalMedia> selectList = new ArrayList<>();
 
     @Override
     public int getRootViewId() {
@@ -95,6 +102,7 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
         mAddAccoumtTv.setOnClickListener(this);
         mLoginTv.setOnClickListener(this);
         mToRegeistTv.setOnClickListener(this);
+        mCircleImageView.setOnClickListener(this);
     }
 
     @Override
@@ -136,13 +144,49 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
                 mNormalLl1.setVisibility(View.GONE);
                 mLoginl1.setVisibility(View.GONE);
                 break;
+
+
+            case R.id.persion_icon_iv:
+
+                //头像选择
+                // 进入相册 以下是例子：不需要的api可以不写
+                PictureSelector.create(PersonFragment.this)
+                        .openGallery(PictureMimeType.ofImage())
+                        .theme(R.style.picture_style)
+                        .maxSelectNum(1)
+                        .minSelectNum(1)
+                        .previewImage(true)
+                        .isCamera(true)
+                        .enableCrop(true)
+                        .compress(true)
+                        .glideOverride(160, 160)
+                        .previewEggs(true)
+                        .withAspectRatio(1, 1)
+                        .freeStyleCropEnabled(true)
+                        .circleDimmedLayer(false)
+                        .showCropFrame(true)
+                        .showCropGrid(true)
+                        .openClickSound(false)
+                        .selectionMedia(selectList)
+                        .forResult(PictureConfig.CHOOSE_REQUEST);
+
+                break;
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case PictureConfig.CHOOSE_REQUEST:
+                    // 图片选择
+                    selectList = PictureSelector.obtainMultipleResult(data);
+                    LocalMedia localMedia = selectList.get(0);
+                    Glide.with(getContext().getApplicationContext()).load(localMedia.getPath()).into(mCircleImageView);
+                    break;
+            }
+        }
     }
 
 

@@ -17,6 +17,7 @@ import android.widget.VideoView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.fgo.utils.adaper.HeroFragmentAdaper;
 import com.fgo.utils.bean.BaseCommonBean;
 import com.fgo.utils.bean.ServantDetailBean;
@@ -307,7 +308,8 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
             String num = CommonUtils.getId(id);
             //从fgowiki获取头像
             String url = new StringBuilder().append("http://file.fgowiki.fgowiki.com/fgo/head/").append(num).append(".jpg").toString();
-            Glide.with(getApplicationContext()).load(url).error(R.mipmap.ic_launcher).into(mServantIcon);
+
+            Glide.with(getApplicationContext()).load(url).into(mServantIcon);
 
         }
 
