@@ -99,4 +99,7 @@
     <item name="type_empty" type="integer" />
 
 
+    <string name="agree">同意</string>
+    <string name="disagree">取消</string>
+
 </resources>

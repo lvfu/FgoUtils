@@ -1,4 +1,4 @@
-package com.fgo.utils.base;
+package com.fgo.utils.base.systembar;
 
 import android.app.Activity;
 import android.os.Build;

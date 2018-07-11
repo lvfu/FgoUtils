@@ -29,6 +29,7 @@
             app:civ_border_width="2dp" />
 
         <RelativeLayout
+            android:id="@+id/persion_normal_top_ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -41,7 +42,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="name"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/persion_info_tv"
@@ -53,6 +55,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/persion_normal_no_account_ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

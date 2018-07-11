@@ -1,6 +1,7 @@
 package com.fgo.utils.face;
 
 import com.fgo.utils.bean.BaseCommonBean;
+import com.fgo.utils.bean.LoginBean;
 import com.fgo.utils.bean.ServantAdvancedBean;
 import com.fgo.utils.bean.ServantDetailBean;
 import com.fgo.utils.bean.ServantListBean;
@@ -69,5 +70,25 @@ public interface GetRequest_Interface {
 
     @GET("fate/search/servantsearch")
     Call<BaseCommonBean<ServantListNBean>> getServantForName(@Query("keyword") String keyword, @Query("version") String version);
+
+    /**
+     * 注册
+     *
+     * @param body
+     * @return
+     */
+    @Headers({"Content-type:application/json;charset=UTF-8"})
+    @POST("fate/user/regeist")
+    Call<BaseCommonBean> getRegeistData(@Body RequestBody body);
+
+    /**
+     * 注册
+     *
+     * @param body
+     * @return
+     */
+    @Headers({"Content-type:application/json;charset=UTF-8"})
+    @POST("fate/user/login")
+    Call<BaseCommonBean<LoginBean>> getLoginData(@Body RequestBody body);
 
 }

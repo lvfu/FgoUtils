@@ -29,7 +29,6 @@
             android:layout_marginTop="30dp">
 
             <TextView
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -39,12 +38,14 @@
                 android:textSize="15sp" />
 
             <EditText
+                android:id="@+id/persion_regeist_nickname_et"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edit_gray_boder"
+                android:singleLine="true"
                 android:hint="用户名为展示信息"
                 android:paddingLeft="10dp"
                 android:textSize="12sp" />
@@ -67,11 +68,13 @@
                 android:textSize="15sp" />
 
             <EditText
+                android:id="@+id/persion_regeist_username_et"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginLeft="45dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="5dp"
+                android:singleLine="true"
                 android:background="@drawable/edit_gray_boder"
                 android:hint="账号用于登陆"
                 android:paddingLeft="10dp"
@@ -95,11 +98,13 @@
                 android:textSize="15sp" />
 
             <EditText
+                android:id="@+id/persion_regeist_pwd_et"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginLeft="45dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="5dp"
+                android:singleLine="true"
                 android:background="@drawable/edit_gray_boder"
                 android:hint="密码将用于找回账号"
                 android:paddingLeft="10dp"
@@ -128,13 +133,13 @@
 
 
         <Button
-            android:layout_marginTop="100dp"
             android:id="@+id/persion_regeist_finish_btn"
             android:layout_width="match_parent"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
             android:layout_height="40dp"
             android:layout_below="@+id/persion_regeist_ts_tv"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="100dp"
             android:background="@color/google_red"
             android:text="提交"
             android:textColor="@color/google_write" />

@@ -10,6 +10,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/persion_bottom_setting_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"

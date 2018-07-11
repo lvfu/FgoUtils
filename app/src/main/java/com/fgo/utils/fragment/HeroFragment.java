@@ -89,7 +89,6 @@ public class HeroFragment extends QuickFragment<HeroView, HeroPresenter> impleme
     @Override
     public void showServantList(BaseCommonBean<ServantListNBean> body) {
 
-
         String respCode = body.getRespCode();
         String respMsg = body.getRespMsg();
         BaseCommonBean.BaseCommonData data = body.getData();

@@ -35,15 +35,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ServantActivity" />
-        <activity android:name=".activity.SkillActivity" />
-        <activity android:name=".activity.ServantSourceActivity" />
+        <activity
+            android:name=".activity.ServantActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SkillActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ServantSourceActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SearchActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".activity.ServantSourcePlanActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".sql.SqlInsertActivity"></activity>
+        <activity
+            android:name=".activity.ServantSourcePlanActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activity.SettingActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

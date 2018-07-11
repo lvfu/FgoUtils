@@ -3,7 +3,6 @@ package com.fgo.utils;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
-import com.fgo.utils.base.SytemTar;
 import com.hjm.bottomtabbar.BottomTabBar;
 import com.king.frame.mvp.base.QuickActivity;
 import com.fgo.utils.bean.ServantItem;
