@@ -5,6 +5,7 @@ import com.fgo.utils.base.retrofit.StringCallBack;
 import com.fgo.utils.bean.BaseCommonBean;
 import com.fgo.utils.bean.LoginBean;
 import com.fgo.utils.bean.ServantListNBean;
+import com.fgo.utils.bean.ServantSkillPlanBean;
 import com.fgo.utils.constant.GlobalConstant;
 import com.fgo.utils.face.GetRequest_Interface;
 
@@ -111,4 +112,41 @@ public class BaseRetrofitService {
 
         RetrofitLoder.getInstance().post(call, callBack);
     }
+
+
+    //servantSouce
+    public void getServantSouceList(int id, int userId, final StringCallBack callBack) {
+
+        GetRequest_Interface request = retrofit.create(GetRequest_Interface.class);
+
+        //对 发送请求 进行封装
+        Call<BaseCommonBean<ServantSkillPlanBean>> call = request.getServantSouceList(id, userId, VERSION_1_1);
+
+        RetrofitLoder.getInstance().post(call, callBack);
+    }
+
+    /**
+     * 设置技能素材
+     *
+     * @param
+     */
+    public void setServantsSourceData(JSONObject jsonObjectData, final StringCallBack callBack) {
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("version", VERSION_1_1);
+            jsonObject.put("bean", jsonObjectData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), jsonObject.toString());
+
+        //对 发送请求 进行封装
+        Call<BaseCommonBean> call = request.setServantsSourceData(body);
+
+        RetrofitLoder.getInstance().post(call, callBack);
+    }
+
+
 }

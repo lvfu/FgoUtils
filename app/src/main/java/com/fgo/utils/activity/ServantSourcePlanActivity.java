@@ -15,6 +15,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fgo.utils.base.PrefUtil;
+import com.fgo.utils.bean.BaseCommonBean;
+import com.fgo.utils.bean.LoginBean;
+import com.fgo.utils.bean.ServantSkillPlanBean;
 import com.king.frame.mvp.base.QuickActivity;
 
 import com.fgo.utils.R;
@@ -33,6 +37,8 @@ import com.fgo.utils.utils.StatusBarUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,13 +57,15 @@ public class ServantSourcePlanActivity extends QuickActivity<ServantSourcePlanVi
     private DBManager dbManager;
     private CustomPopWindow mCustomPopWindow;
     private LinearLayout mServantSpiritLL;
+    private ServantSourcePlanPresenter servantSourcePlanPresenter;
     private int id;
+    private int userId;
 
     @NonNull
     @Override
     public ServantSourcePlanPresenter createPresenter() {
-
-        return new ServantSourcePlanPresenter();
+        servantSourcePlanPresenter = new ServantSourcePlanPresenter();
+        return servantSourcePlanPresenter;
     }
 
     @Override
@@ -77,6 +85,7 @@ public class ServantSourcePlanActivity extends QuickActivity<ServantSourcePlanVi
 
         //获取数据源
         servantSkillItem = (ServantSkill) getIntent().getSerializableExtra("servantSkillItem");
+        id = getIntent().getIntExtra("id", -1);
         isMaXiu = getIntent().getBooleanExtra("isMaXiu", false);
 
         mServantSpiritLL = findViewById(R.id.servant_spirit_based_return_ll);
@@ -134,22 +143,45 @@ public class ServantSourcePlanActivity extends QuickActivity<ServantSourcePlanVi
     @Override
     public void initData() {
 
-        setEtData();
+        userId = (int) SharedPreferencesUtils.getParam(this, "userId", 0);
 
-        //设置技能,进阶资源数据
-        setSkillAndServantSourdeData();
-
-        mServantSkillOneName.setText(servantSkillItem.getSkill_one_name());
-        mServantSkillTwoName.setText(servantSkillItem.getSkill_two_name());
-        mServantSkillThreeName.setText(servantSkillItem.getSkill_three_name());
+        if (userId == 0) {
+            Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+        servantSourcePlanPresenter.getServantSouceList(id, userId);
     }
 
-    private void setEtData() {
+    @Override
+    public void showServantsSouceData(BaseCommonBean body) {
+        String respCode = body.getRespCode();
+        String respMsg = body.getRespMsg();
+        BaseCommonBean.BaseCommonData data = body.getData();
+        if ("success".equals(respCode)) {
+            ServantSkillPlanBean bean = (ServantSkillPlanBean) data.getModel();
+            //设置技能
+            String skillLv = bean.getSkillLv();
+            setEtData(skillLv);
 
-        id = servantSkillItem.getId();
-        String param = (String) SharedPreferencesUtils.getParam(this, "" + id, "0|0|1|1|1|1|1|1");
+            //设置技能,进阶资源数据
+            setSkillAndServantSourdeData(bean);
 
-        String[] split = param.split("\\|");
+            mServantSkillOneName.setText(bean.getSkillNameOne());
+            mServantSkillTwoName.setText(bean.getSkillNameTwo());
+            mServantSkillThreeName.setText(bean.getSkillNameThree());
+
+
+        } else {
+            Toast.makeText(getContext(), respMsg, Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+
+    private void setEtData(String skillLv) {
+
+        String[] split = skillLv.split("\\|");
         mServantSpiritDq.setText(split[0]);
         mServantSpiritMb.setText(split[1]);
         mServantSkillOneDq.setText(split[2]);
@@ -160,32 +192,14 @@ public class ServantSourcePlanActivity extends QuickActivity<ServantSourcePlanVi
         mServantSkillThreeMb.setText(split[7]);
     }
 
-    private void setSkillAndServantSourdeData() {
+    private void setSkillAndServantSourdeData(ServantSkillPlanBean bean) {
         skillSourceList = new ArrayList<>();
         servantSourceList = new ArrayList<>();
 
-        //素材  剑之辉石|剑之辉石|剑之魔石|剑之魔石,凤凰的羽毛|剑之秘石,凤凰的羽毛|剑之秘石,八连双晶|八连双晶,龙牙|龙牙,无间的齿车|传承结晶
-        String skill_material_arr = servantSkillItem.getSkill_material_arr();
-        //数量  4|8|4|8, 4|4, 7|8, 10|20, 4|12, 10|1
-        String skill_material_num_arr = servantSkillItem.getSkill_material_num_arr();
-        //图片  sphere01.png|sphere01.png|ruby01.png|ruby01.png,gear.png|star01.png,gear.png|star01.png,plate.png|plate.png,clevis.png|clevis.png,claw.png|cubes.png
-        String skill_material_img_arr = servantSkillItem.getSkill_material_img_arr();
-        //qp   50000|100000|300000|400000|1000000|1250000|2500000|3000000|5000000
-        String skill_cost_arr = servantSkillItem.getSkill_cost_arr();
+        skillSourceList.addAll(bean.getSkillSourceList());
+        servantSourceList.addAll(bean.getServantSourceList());
 
-        //素材  剑之辉石|剑之辉石|剑之魔石|剑之魔石,凤凰的羽毛|剑之秘石,凤凰的羽毛|剑之秘石,八连双晶|八连双晶,龙牙|龙牙,无间的齿车|传承结晶
-        String servant_material_arr = servantSkillItem.getBreak_material_arr();
-        //数量  4|8|4|8, 4|4, 7|8, 10|20, 4|12, 10|1
-        String servant_material_num_arr = servantSkillItem.getBreak_material_num_arr();
-        //图片  sphere01.png|sphere01.png|ruby01.png|ruby01.png,gear.png|star01.png,gear.png|star01.png,plate.png|plate.png,clevis.png|clevis.png,claw.png|cubes.png
-        String servant_material_img_arr = servantSkillItem.getBreak_material_img_arr();
-        //qp   50000|100000|300000|400000|1000000|1250000|2500000|3000000|5000000
-        String servant_cost_arr = servantSkillItem.getBreak_cost_arr();
 
-        //技能资源数据
-        skillSourceList = CommonUtils.getSourceList(skillSourceList, skill_material_arr, skill_material_num_arr, skill_material_img_arr, skill_cost_arr);
-        //英灵进阶资源数据
-        servantSourceList = CommonUtils.getSourceList(servantSourceList, servant_material_arr, servant_material_num_arr, servant_material_img_arr, servant_cost_arr);
     }
 
 
@@ -278,6 +292,7 @@ public class ServantSourcePlanActivity extends QuickActivity<ServantSourcePlanVi
                 servantSkillOneList = getSourceData(servantSkillOneDq - 1, servantSkillOneMb - 1, servantSkillOneList, 2);
                 servantSkillTwoList = getSourceData(servantSkillTwoDq - 1, servantSkillTwoMb - 1, servantSkillTwoList, 2);
                 servantSkillThreeList = getSourceData(servantSkillThreeDq - 1, servantSkillThreeMb - 1, servantSkillThreeList, 2);
+
                 servantSpiritList.addAll(servantSkillOneList);
                 servantSpiritList.addAll(servantSkillTwoList);
                 servantSpiritList.addAll(servantSkillThreeList);
@@ -285,29 +300,45 @@ public class ServantSourcePlanActivity extends QuickActivity<ServantSourcePlanVi
                 String[] servantSpiritArray = listToArray(servantSpiritList);
 
                 Map<String, String> servantSpiritMap = CommonUtils.setValue(servantSpiritArray);
+                String servantSpiritCount = CommonUtils.transMapToString(servantSpiritMap);
 
-                //判断以前有没有存储过材料
-                String param = (String) SharedPreferencesUtils.getParam(ServantSourcePlanActivity.this, id + "skill", "");
-                Map<String, String> oldServantSpiritMap = CommonUtils.transStringToMap(param);
-                if (!TextUtils.isEmpty(param)) {
-                    //删除以前存储材料
-                    deleteDatabaseData(oldServantSpiritMap);
+
+                JSONObject jsonObjectData = new JSONObject();
+                try {
+                    jsonObjectData.put("skillLv", level);
+                    jsonObjectData.put("skillSource", servantSpiritCount);
+                    jsonObjectData.put("userId", userId);
+                    jsonObjectData.put("newId", id);
+                    jsonObjectData.put("id", id);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
 
-                //存储现在材料
-                String s = CommonUtils.transMapToString(servantSpiritMap);
-                SharedPreferencesUtils.setParam(ServantSourcePlanActivity.this, id + "skill", s);
+                servantSourcePlanPresenter.setServantsSourceData(jsonObjectData);
 
-                //设置材料数据到数据库
-                setDataToDb(servantSpiritMap);
-
-                EventBus.getDefault().post(new MessageEvent("refresh"));
-
-                finish();
                 break;
         }
     }
 
+    @Override
+    public void showInsertSouceData(BaseCommonBean body) {
+        String respCode = body.getRespCode();
+        String respMsg = body.getRespMsg();
+        BaseCommonBean.BaseCommonData data = body.getData();
+        if ("success".equals(respCode)) {
+            String result = data.getResult();
+            if ("True".equals(result)) {
+
+                EventBus.getDefault().post(new MessageEvent("refresh"));
+                finish();
+            }
+        } else {
+
+            Toast.makeText(getContext(), respMsg, Toast.LENGTH_SHORT).show();
+
+        }
+    }
 
     private void deleteDatabaseData(Map<String, String> oldServantSpiritMap) {
 
@@ -316,10 +347,6 @@ public class ServantSourcePlanActivity extends QuickActivity<ServantSourcePlanVi
 
         for (String key : oldServantSpiritMap.keySet()) {
             int value = Integer.parseInt(oldServantSpiritMap.get(key));
-//            Cursor cursor = dbManager.database.rawQuery("SELECT * FROM Materials WHERE " +
-//                            "name LIKE ?",
-//
-//                    new String[]{"%" + key + "%"});
 
             Cursor cursor = DbUtils.searchData(dbManager, getContext(), "Materials", key, "", false);
 
@@ -394,6 +421,7 @@ public class ServantSourcePlanActivity extends QuickActivity<ServantSourcePlanVi
                 skill_material = skillSourceList.get(i).getSkill_material();
                 skill_material_num = skillSourceList.get(i).getSkill_material_num();
             }
+
             for (int j = 0; j < skill_material.size(); j++) {
                 String key = skill_material.get(j);
                 String value = skill_material_num.get(j);
@@ -496,4 +524,5 @@ public class ServantSourcePlanActivity extends QuickActivity<ServantSourcePlanVi
         super.onDestroy();
 
     }
+
 }

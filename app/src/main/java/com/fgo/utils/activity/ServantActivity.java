@@ -388,6 +388,7 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
             case R.id.servant_source_plane_ll:
                 Intent intentFive = new Intent(this, ServantSourcePlanActivity.class);
                 intentFive.putExtra("servantSkillItem", servantSkill);
+                intentFive.putExtra("id", id);
                 if ("Shielder".equals(servantItem.getClass_type())) {
                     intentFive.putExtra("isMaXiu", true);
                 } else {

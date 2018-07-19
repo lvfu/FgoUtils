@@ -1,5 +1,6 @@
 package com.fgo.utils.mvp.view;
 
+import com.fgo.utils.bean.BaseCommonBean;
 import com.king.frame.mvp.base.BaseView;
 
 /**
@@ -7,4 +8,7 @@ import com.king.frame.mvp.base.BaseView;
  */
 
 public interface ServantSourcePlanView extends BaseView {
+    void showServantsSouceData(BaseCommonBean body);
+
+    void showInsertSouceData(BaseCommonBean body);
 }

@@ -7,6 +7,7 @@ import com.fgo.utils.bean.ServantDetailBean;
 import com.fgo.utils.bean.ServantListBean;
 import com.fgo.utils.bean.ServantListNBean;
 import com.fgo.utils.bean.ServantSkillBean;
+import com.fgo.utils.bean.ServantSkillPlanBean;
 import com.fgo.utils.bean.userBean;
 
 import org.json.JSONObject;
@@ -91,4 +92,24 @@ public interface GetRequest_Interface {
     @POST("fate/user/login")
     Call<BaseCommonBean<LoginBean>> getLoginData(@Body RequestBody body);
 
+    /**
+     * 获取英灵技能素材
+     *
+     * @param
+     * @return
+     */
+
+    @GET("fate/servantskill/skillplan")
+    Call<BaseCommonBean<ServantSkillPlanBean>> getServantSouceList(@Query("id") int id, @Query("userId") int userId, @Query("version") String version);
+
+
+    /**
+     * 设置技能素材
+     *
+     * @param body
+     * @return
+     */
+    @Headers({"Content-type:application/json;charset=UTF-8"})
+    @POST("fate/servantskill/skillsource")
+    Call<BaseCommonBean> setServantsSourceData(@Body RequestBody body);
 }
