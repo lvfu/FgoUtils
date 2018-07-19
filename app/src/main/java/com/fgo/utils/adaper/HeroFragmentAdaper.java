@@ -87,10 +87,6 @@ public class HeroFragmentAdaper extends RecyclerView.Adapter {
             public void onClick(View v) {
                 Intent sIntent = new Intent(mContext, ServantActivity.class);
 
-                //暂时为了适配素材规划
-                ServantSkill servantSkill = GlobalData.getInstance().servantSkillsList.get(position);
-                sIntent.putExtra("servantSkill", servantSkill);
-
                 sIntent.putExtra("id", item.getId());
                 mContext.startActivity(sIntent);
             }

@@ -74,7 +74,7 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
     private RelativeLayout mServantSourcePlan;
     private ServantPresenter servantPresenter;
     private ServantDetailBean servantItem;
-    private ServantSkill servantSkill;
+
 
 
     @Override
@@ -149,8 +149,6 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
     public void initData() {
         id = getIntent().getIntExtra("id", -1);
 
-        //暂时为了适配素材规划
-        servantSkill = (ServantSkill) getIntent().getSerializableExtra("servantSkill");
 
         servantPresenter.getServantData(this.id);
     }
@@ -387,7 +385,7 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
 
             case R.id.servant_source_plane_ll:
                 Intent intentFive = new Intent(this, ServantSourcePlanActivity.class);
-                intentFive.putExtra("servantSkillItem", servantSkill);
+//                intentFive.putExtra("servantSkillItem", servantSkill);
                 intentFive.putExtra("id", id);
                 if ("Shielder".equals(servantItem.getClass_type())) {
                     intentFive.putExtra("isMaXiu", true);

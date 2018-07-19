@@ -56,8 +56,9 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
     // Okhttp库
     compile 'com.squareup.okhttp3:okhttp:3.1.2'
-    //图片选择库
+//    //图片选择库
     compile 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+
 
 
 }

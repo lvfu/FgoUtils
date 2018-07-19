@@ -1,32 +1,16 @@
 package com.fgo.utils.mvp.presenter;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.text.TextUtils;
-import android.widget.TextView;
 
 import com.fgo.utils.bean.BaseCommonBean;
-import com.fgo.utils.bean.ServantListBean;
 import com.fgo.utils.bean.ServantListNBean;
-import com.fgo.utils.bean.ServantSkillBean;
 import com.fgo.utils.constant.GlobalConstant;
 import com.fgo.utils.face.GetRequest_Interface;
 import com.king.frame.mvp.base.BasePresenter;
-import com.fgo.utils.R;
-import com.fgo.utils.bean.ServantItem;
-import com.fgo.utils.bean.ServantSkill;
-import com.fgo.utils.db.DBManager;
 import com.fgo.utils.mvp.view.SearchView;
-import com.fgo.utils.utils.CommonUtils;
-import com.fgo.utils.utils.DbUtils;
-import com.fgo.utils.utils.SharedPreferencesUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;

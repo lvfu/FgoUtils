@@ -1,22 +1,9 @@
 package com.fgo.utils.fragment;
 
 import android.app.Activity;
-import android.app.DownloadManager;
-import android.content.BroadcastReceiver;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.ActivityInfo;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,26 +12,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.fgo.utils.activity.SettingActivity;
-import com.fgo.utils.adaper.HeroFragmentAdaper;
 import com.fgo.utils.base.CircleImageView;
 import com.fgo.utils.base.PrefUtil;
 import com.fgo.utils.bean.BaseCommonBean;
 import com.fgo.utils.bean.LoginBean;
 import com.fgo.utils.bean.MessageEvent;
-import com.fgo.utils.bean.ServantListNBean;
-import com.fgo.utils.bean.userBean;
-import com.fgo.utils.constant.GlobalConstant;
-import com.fgo.utils.face.GetRequest_Interface;
 import com.fgo.utils.utils.SharedPreferencesUtils;
 import com.king.frame.mvp.base.QuickFragment;
-import com.fgo.utils.MainActivity;
 import com.fgo.utils.R;
-import com.fgo.utils.db.DBManager;
 import com.fgo.utils.mvp.presenter.PersonPresenter;
 import com.fgo.utils.mvp.view.PersonView;
 import com.luck.picture.lib.PictureSelector;
@@ -56,23 +33,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.fgo.utils.db.DBManager.DB_NAME;
-import static com.fgo.utils.utils.UnCentHandler.TAG;
 
 /**
  * Created by lvfu on 2018/3/26.

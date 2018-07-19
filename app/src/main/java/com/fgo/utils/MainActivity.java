@@ -60,7 +60,7 @@ public class MainActivity extends QuickActivity<IIPAddrView, IPAddrPresenter> im
 
     @Override
     public void initData() {
-        getPresenter().getSeventData();
+//        getPresenter().getSeventData();
     }
 
     @Override

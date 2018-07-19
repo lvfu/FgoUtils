@@ -3,21 +3,15 @@ package com.fgo.utils.activity;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fgo.utils.base.PrefUtil;
 import com.fgo.utils.bean.BaseCommonBean;
-import com.fgo.utils.bean.LoginBean;
 import com.fgo.utils.bean.ServantSkillPlanBean;
 import com.king.frame.mvp.base.QuickActivity;
 
@@ -26,17 +20,14 @@ import com.fgo.utils.bean.MessageEvent;
 import com.fgo.utils.bean.ServantSkill;
 import com.fgo.utils.bean.SkillSourceBean;
 import com.fgo.utils.bean.SourcePlanBean;
-import com.fgo.utils.db.DBManager;
 import com.fgo.utils.mvp.presenter.ServantSourcePlanPresenter;
 import com.fgo.utils.mvp.view.ServantSourcePlanView;
 import com.fgo.utils.ui.view.CustomPopWindow;
 import com.fgo.utils.utils.CommonUtils;
-import com.fgo.utils.utils.DbUtils;
 import com.fgo.utils.utils.SharedPreferencesUtils;
 import com.fgo.utils.utils.StatusBarUtil;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,14 +38,13 @@ import java.util.Map;
 public class ServantSourcePlanActivity extends QuickActivity<ServantSourcePlanView, ServantSourcePlanPresenter> implements ServantSourcePlanView, View.OnClickListener {
 
     private boolean isMaXiu;
-    private ServantSkill servantSkillItem;
+
     private TextView mServantSpiritDq, mServantSpiritMb, mServantSkillOneName, mServantSkillOneDq, mServantSkillOneMb, mServantSkillTwoDq,
             mServantSkillTwoName, mServantSkillTwoMb, mServantSkillThreeDq, mServantSkillThreeName, mServantSkillThreeMb;
 
     private List<SkillSourceBean> skillSourceList;
     private List<SkillSourceBean> servantSourceList;
     private RelativeLayout mServantSkillSelect;
-    private DBManager dbManager;
     private CustomPopWindow mCustomPopWindow;
     private LinearLayout mServantSpiritLL;
     private ServantSourcePlanPresenter servantSourcePlanPresenter;
@@ -80,11 +70,8 @@ public class ServantSourcePlanActivity extends QuickActivity<ServantSourcePlanVi
 
         StatusBarUtil.setColor(this, getResources().getColor(R.color.google_red), 0);
 
-        dbManager = new DBManager(this);
-
 
         //获取数据源
-        servantSkillItem = (ServantSkill) getIntent().getSerializableExtra("servantSkillItem");
         id = getIntent().getIntExtra("id", -1);
         isMaXiu = getIntent().getBooleanExtra("isMaXiu", false);
 
@@ -279,7 +266,7 @@ public class ServantSourcePlanActivity extends QuickActivity<ServantSourcePlanVi
                 }
 
                 String level = servantSpiritDq + "|" + servantSpiritMb + "|" + servantSkillOneDq + "|" + servantSkillOneMb + "|" + servantSkillTwoDq + "|" + servantSkillTwoMb + "|" + servantSkillThreeDq + "|" + servantSkillThreeMb;
-                int id = servantSkillItem.getId();
+
                 SharedPreferencesUtils.setParam(this, "" + id, level);
 
                 List<String> servantSpiritList = new ArrayList<>();
@@ -340,29 +327,6 @@ public class ServantSourcePlanActivity extends QuickActivity<ServantSourcePlanVi
         }
     }
 
-    private void deleteDatabaseData(Map<String, String> oldServantSpiritMap) {
-
-        //从数据库删除当前角色材料
-        dbManager.getDatabase();
-
-        for (String key : oldServantSpiritMap.keySet()) {
-            int value = Integer.parseInt(oldServantSpiritMap.get(key));
-
-            Cursor cursor = DbUtils.searchData(dbManager, getContext(), "Materials", key, "", false);
-
-            ArrayList<SourcePlanBean> sourcePlan = CommonUtils.getSkillList(cursor);
-            int need = sourcePlan.get(0).getNeed();
-
-            ContentValues contentValues = new ContentValues();
-
-            contentValues.put("need", need - value);
-
-            String[] args = {String.valueOf(key)};
-            dbManager.database.update("Materials", contentValues, " name LIKE ?", args);
-
-        }
-
-    }
 
     private void setCustomPopData(View spiritMb, TextView tv, String str) {
         //处理popWindow 显示内容
@@ -374,34 +338,7 @@ public class ServantSourcePlanActivity extends QuickActivity<ServantSourcePlanVi
                 .showAsDropDown(tv, 0, 20);
     }
 
-    private void setDataToDb(Map<String, String> StringMap) {
 
-        dbManager.getDatabase();
-
-        for (String key : StringMap.keySet()) {
-            int value = Integer.parseInt(StringMap.get(key));
-
-//            Cursor cursor = dbManager.database.rawQuery("SELECT * FROM Materials WHERE " +
-//                            "name LIKE ?",
-//
-//                    new String[]{"%" + key + "%"});
-
-            Cursor cursor = DbUtils.searchData(dbManager, getContext(), "Materials", key, "", false);
-
-            ArrayList<SourcePlanBean> sourcePlan = CommonUtils.getSkillList(cursor);
-            int need = sourcePlan.get(0).getNeed();
-
-            ContentValues contentValues = new ContentValues();
-            contentValues.put("need", value + need);
-
-            String[] args = {String.valueOf(key)};
-            dbManager.database.update("Materials", contentValues, " name LIKE ?", args);
-
-        }
-
-        dbManager.closeDatabase();
-
-    }
 
     private String[] listToArray(List<String> list) {
         String[] strings = new String[list.size()];
