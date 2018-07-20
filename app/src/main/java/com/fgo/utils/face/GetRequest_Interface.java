@@ -8,6 +8,7 @@ import com.fgo.utils.bean.ServantListBean;
 import com.fgo.utils.bean.ServantListNBean;
 import com.fgo.utils.bean.ServantSkillBean;
 import com.fgo.utils.bean.ServantSkillPlanBean;
+import com.fgo.utils.bean.SourcesPlanBean;
 import com.fgo.utils.bean.userBean;
 
 import org.json.JSONObject;
@@ -112,4 +113,15 @@ public interface GetRequest_Interface {
     @Headers({"Content-type:application/json;charset=UTF-8"})
     @POST("fate/servantskill/skillsource")
     Call<BaseCommonBean> setServantsSourceData(@Body RequestBody body);
+
+    /**
+     * 素材列表
+     *
+     * @param userId
+     * @param version
+     * @return
+     */
+    @GET("fate/SourcesPlan/SourceCount")
+    Call<BaseCommonBean<SourcesPlanBean>> getSourceList(@Query("userId") int userId, @Query("version") String version);
+
 }

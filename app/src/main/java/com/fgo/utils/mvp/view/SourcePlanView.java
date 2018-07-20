@@ -1,5 +1,6 @@
 package com.fgo.utils.mvp.view;
 
+import com.fgo.utils.bean.BaseCommonBean;
 import com.king.frame.mvp.base.BaseView;
 import com.fgo.utils.bean.SourcePlanBean;
 
@@ -13,5 +14,6 @@ import java.util.ArrayList;
 public interface SourcePlanView extends BaseView {
 
 
-    void setSourcePlanData(ArrayList<SourcePlanBean> sourcePlan);
+
+    void parseSouceListData(BaseCommonBean body);
 }

@@ -5,7 +5,11 @@ import android.database.Cursor;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
+import com.fgo.utils.bean.BaseCommonBean;
+import com.fgo.utils.bean.SourcesPlanBean;
+import com.fgo.utils.utils.SharedPreferencesUtils;
 import com.king.frame.mvp.base.QuickFragment;
 import com.fgo.utils.R;
 import com.fgo.utils.adaper.ExpandableAdapter;
@@ -30,13 +34,13 @@ import java.util.List;
 
 public class SourcePlanFragment extends QuickFragment<SourcePlanView, SourcePlanPresenter> implements SourcePlanView {
 
-    private List<SourcePlanBean> sourcePlan = new ArrayList<>();
     private RecyclerView mSourcePlanRv;
     private ExpandableAdapter sourcePlanAdaper;
     private StickyHeaderLayout stickyHeaderLayout;
 
     private String msg;
     private SourcePlanPresenter sourcePlanPresenter;
+    private int userId;
 
     @Override
     public int getRootViewId() {
@@ -46,7 +50,6 @@ public class SourcePlanFragment extends QuickFragment<SourcePlanView, SourcePlan
     @Override
     public void initUI() {
         EventBus.getDefault().register(this);
-
 
 
         mSourcePlanRv = getRootView().findViewById(R.id.plan_fragment_rv);
@@ -62,14 +65,18 @@ public class SourcePlanFragment extends QuickFragment<SourcePlanView, SourcePlan
 
     @Override
     public void initData() {
+        userId = (int) SharedPreferencesUtils.getParam(getContext(), "userId", 0);
 
+        sourcePlanPresenter.initSourceList(userId);
     }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(MessageEvent messageEvent) {
         if (messageEvent.getMessage().equals("refresh")) {
-//            getPresenter().getSourceData();
+
+            userId = (int) SharedPreferencesUtils.getParam(getContext(), "userId", 0);
+            sourcePlanPresenter.initSourceList(userId);
         }
     }
 
@@ -85,13 +92,10 @@ public class SourcePlanFragment extends QuickFragment<SourcePlanView, SourcePlan
         super.onDestroyView();
     }
 
-    @Override
-    public void setSourcePlanData(ArrayList<SourcePlanBean> list) {
-        sourcePlan.clear();
-        this.sourcePlan.addAll(list);
 
+    public void initAdaper(List<SourcesPlanBean> list) {
 
-        sourcePlanAdaper = new ExpandableAdapter(getContext(), sourcePlan);
+        sourcePlanAdaper = new ExpandableAdapter(getContext(), list);
 
 
         sourcePlanAdaper.setHeadImageClickListener(new ExpandableAdapter.HeadImageClickListener() {
@@ -148,24 +152,23 @@ public class SourcePlanFragment extends QuickFragment<SourcePlanView, SourcePlan
     }
 
 
-    private void setDataToDb(String name, String num) {
-        //qi 1
-//        dbManager.getDatabase();
-//
-//
-//        int value = Integer.parseInt(num);
-//
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put("have", value);
-//
-//        String[] args = {String.valueOf(name)};
-//        dbManager.database.update("Materials", contentValues, " name LIKE ?", args);
-
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void parseSouceListData(BaseCommonBean body) {
+        String respCode = body.getRespCode();
+        String respMsg = body.getRespMsg();
+        BaseCommonBean.BaseCommonData data = body.getData();
+        if ("success".equals(respCode)) {
+            List<SourcesPlanBean> list = data.getList();
+            initAdaper(list);
+        } else {
+            Toast.makeText(getContext(), respMsg, Toast.LENGTH_SHORT).show();
+
+        }
     }
 }

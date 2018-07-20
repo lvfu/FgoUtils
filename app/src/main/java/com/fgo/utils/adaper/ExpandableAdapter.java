@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.fgo.utils.R;
 import com.fgo.utils.bean.SourcePlanBean;
+import com.fgo.utils.bean.SourcesPlanBean;
 import com.fgo.utils.ui.view.stickead.BaseViewHolder;
 import com.fgo.utils.ui.view.stickead.GroupedRecyclerViewAdapter;
 import com.fgo.utils.utils.CommonUtils;
@@ -33,17 +34,17 @@ import okhttp3.Call;
 
 public class ExpandableAdapter extends GroupedRecyclerViewAdapter {
     private Context mContext;
-    private List<SourcePlanBean> sourcePlanList = new ArrayList<>();
+    private List<SourcesPlanBean> sourcePlanList = new ArrayList<>();
 
-    public ExpandableAdapter(Context context, List<SourcePlanBean> sourcePlan) {
+    public ExpandableAdapter(Context context, List<SourcesPlanBean> sourcePlan) {
         super(context);
         mContext = context;
         sourcePlanList.addAll(sourcePlan);
     }
 
-    public void setData(List<SourcePlanBean> sourcePlan, int pos) {
+    public void setData(List<SourcesPlanBean> sourcePlan, int pos) {
 
-        SourcePlanBean sourcePlanBean = sourcePlanList.get(pos);
+        SourcesPlanBean sourcePlanBean = sourcePlanList.get(pos);
         //如果是打开的就让他继续打开
         if (sourcePlanBean.isExpand()) {
 
@@ -111,14 +112,14 @@ public class ExpandableAdapter extends GroupedRecyclerViewAdapter {
     @Override
     public void onBindHeaderViewHolder(BaseViewHolder holder, final int groupPosition) {
 
-        SourcePlanBean sourcePlanBean = sourcePlanList.get(groupPosition);
+        SourcesPlanBean sourcePlanBean = sourcePlanList.get(groupPosition);
         ImageView mSourcePlanImg = holder.get(R.id.source_plan_item_iv);
         TextView mSourcePlanName = holder.get(R.id.source_plan_item_name);
         ImageView ivState = holder.get(R.id.sample_activity_list_group_expanded_image);
         TextView mSourcePlanNeed = holder.get(R.id.source_plan_item_need);
 
 
-        int surplus = sourcePlanBean.getHave() - sourcePlanBean.getNeed();
+        int surplus = sourcePlanBean.getSourceCountHave() - sourcePlanBean.getSourceCount();
         if (surplus >= 0) {
             mSourcePlanNeed.setVisibility(View.GONE);
         } else {
@@ -134,9 +135,9 @@ public class ExpandableAdapter extends GroupedRecyclerViewAdapter {
         }
 
         //设置数据
-        int resourceId = CommonUtils.getResourceId(sourcePlanBean.getImg(), mContext);
+        int resourceId = CommonUtils.getResourceId(sourcePlanBean.getSourceImage(), mContext);
         mSourcePlanImg.setImageResource(resourceId);
-        mSourcePlanName.setText(sourcePlanBean.getName());
+        mSourcePlanName.setText(sourcePlanBean.getSourceName());
 
         ivState.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +155,7 @@ public class ExpandableAdapter extends GroupedRecyclerViewAdapter {
 
     @Override
     public void onBindChildViewHolder(BaseViewHolder holder, final int groupPosition, int childPosition) {
-        final SourcePlanBean sourcePlanBean = sourcePlanList.get(groupPosition);
+        final SourcesPlanBean sourcePlanBean = sourcePlanList.get(groupPosition);
 
         TextView mSourcePlanNeed = holder.get(R.id.source_plan_item_need);
         final TextView mSourcePlanParrent = holder.get(R.id.source_plan_item_parent);
@@ -166,11 +167,11 @@ public class ExpandableAdapter extends GroupedRecyclerViewAdapter {
 
         //计算素材
         //需求
-        mSourcePlanNeed.setText("需求: " + sourcePlanBean.getNeed() + "");
+        mSourcePlanNeed.setText("需求: " + sourcePlanBean.getSourceCount() + "");
         //持有
-        mSourcePlanParrent.setText("持有: " + sourcePlanBean.getHave() + "");
+        mSourcePlanParrent.setText("持有: " + sourcePlanBean.getSourceCountHave() + "");
         //剩余
-        int surplus = sourcePlanBean.getHave() - sourcePlanBean.getNeed();
+        int surplus = sourcePlanBean.getSourceCountHave() - sourcePlanBean.getSourceCount();
         if (surplus >= 0) {
             mSourcePlanSurplus.setText("剩余: " + surplus);
         } else {
@@ -196,7 +197,7 @@ public class ExpandableAdapter extends GroupedRecyclerViewAdapter {
                                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                                         mSourcePlanParrent.setText("持有: " + input + "");
                                         //剩余
-                                        int surplus = Integer.parseInt(input + "") - sourcePlanBean.getNeed();
+                                        int surplus = Integer.parseInt(input + "") - sourcePlanBean.getSourceCount();
                                         if (surplus >= 0) {
                                             mSourcePlanSurplus.setText("剩余: " + surplus);
                                         } else {
@@ -226,7 +227,7 @@ public class ExpandableAdapter extends GroupedRecyclerViewAdapter {
      * @return
      */
     public boolean isExpand(int groupPosition) {
-        SourcePlanBean sourcePlanBean = sourcePlanList.get(groupPosition);
+        SourcesPlanBean sourcePlanBean = sourcePlanList.get(groupPosition);
         return sourcePlanBean.isExpand();
     }
 
@@ -246,7 +247,7 @@ public class ExpandableAdapter extends GroupedRecyclerViewAdapter {
      * @param animate
      */
     public void expandGroup(int groupPosition, boolean animate) {
-        SourcePlanBean sourcePlanBean = sourcePlanList.get(groupPosition);
+        SourcesPlanBean sourcePlanBean = sourcePlanList.get(groupPosition);
         sourcePlanBean.setExpand(true);
         if (animate) {
             insertChildren(groupPosition);
@@ -272,7 +273,7 @@ public class ExpandableAdapter extends GroupedRecyclerViewAdapter {
      * @param animate
      */
     public void collapseGroup(int groupPosition, boolean animate) {
-        SourcePlanBean sourcePlanBean = sourcePlanList.get(groupPosition);
+        SourcesPlanBean sourcePlanBean = sourcePlanList.get(groupPosition);
         sourcePlanBean.setExpand(false);
         if (animate) {
             removeChildren(groupPosition);
