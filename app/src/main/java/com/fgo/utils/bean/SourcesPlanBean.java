@@ -2,29 +2,45 @@ package com.fgo.utils.bean;
 
 public class SourcesPlanBean {
 
-    private String SourceName;
-    private int SourceCount;
-
-    private int SourceCountHave;
-    private String SourceImage;
 
     private boolean isExpand;
 
 
+    private String sourceName;
+    private int sourceCount;
+    private int sourceCountHave;
+    private String sourceImage;
+
+    public String getSourceName() {
+        return sourceName;
+    }
+
+    public void setSourceName(String sourceName) {
+        this.sourceName = sourceName;
+    }
+
+    public int getSourceCount() {
+        return sourceCount;
+    }
+
+    public void setSourceCount(int sourceCount) {
+        this.sourceCount = sourceCount;
+    }
+
     public int getSourceCountHave() {
-        return SourceCountHave;
+        return sourceCountHave;
     }
 
     public void setSourceCountHave(int sourceCountHave) {
-        SourceCountHave = sourceCountHave;
+        this.sourceCountHave = sourceCountHave;
     }
 
     public String getSourceImage() {
-        return SourceImage;
+        return sourceImage;
     }
 
     public void setSourceImage(String sourceImage) {
-        SourceImage = sourceImage;
+        this.sourceImage = sourceImage;
     }
 
     public boolean isExpand() {
@@ -34,21 +50,4 @@ public class SourcesPlanBean {
     public void setExpand(boolean expand) {
         isExpand = expand;
     }
-
-    public String getSourceName() {
-        return SourceName;
-    }
-
-    public void setSourceName(String sourceName) {
-        SourceName = sourceName;
-    }
-
-    public int getSourceCount() {
-        return SourceCount;
-    }
-
-    public void setSourceCount(int sourceCount) {
-        SourceCount = sourceCount;
-    }
-
 }
