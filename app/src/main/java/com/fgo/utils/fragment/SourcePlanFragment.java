@@ -1,12 +1,14 @@
 package com.fgo.utils.fragment;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import com.fgo.utils.activity.SourceDropActivity;
 import com.fgo.utils.bean.BaseCommonBean;
 import com.fgo.utils.bean.SourcesPlanBean;
 import com.fgo.utils.utils.SharedPreferencesUtils;
@@ -133,6 +135,16 @@ public class SourcePlanFragment extends QuickFragment<SourcePlanView, SourcePlan
                 }
 
 
+            }
+        });
+
+        //掉落
+        sourcePlanAdaper.setSourceDropListener(new ExpandableAdapter.SourceDropListener() {
+            @Override
+            public void dropListener(int pos) {
+                Intent intent = new Intent(getContext(), SourceDropActivity.class);
+                intent.putExtra("position", pos);
+                startActivity(intent);
             }
         });
 

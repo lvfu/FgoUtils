@@ -8,6 +8,7 @@ import com.fgo.utils.bean.ServantListBean;
 import com.fgo.utils.bean.ServantListNBean;
 import com.fgo.utils.bean.ServantSkillBean;
 import com.fgo.utils.bean.ServantSkillPlanBean;
+import com.fgo.utils.bean.SourceDropBean;
 import com.fgo.utils.bean.SourcesPlanBean;
 import com.fgo.utils.bean.userBean;
 
@@ -133,4 +134,8 @@ public interface GetRequest_Interface {
      */
     @GET("fate/SourcesPlan/SourceOperate")
     Call<BaseCommonBean<SourcesPlanBean>> insertSourceCount(@Query("userId") int userId, @Query("sourceCount") int sourceCount, @Query("sourceName") String sourceName, @Query("version") String version);
+
+
+    @GET("fate/SourcesPlan/SourceDrop")
+    Call<BaseCommonBean<SourceDropBean>> getSourceDropData(@Query("position") String position, @Query("version") String version);
 }

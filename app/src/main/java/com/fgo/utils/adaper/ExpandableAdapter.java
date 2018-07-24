@@ -162,6 +162,7 @@ public class ExpandableAdapter extends GroupedRecyclerViewAdapter {
 
         Button mSourcePlanSetting = holder.get(R.id.source_plan_item_bt_source_setting);
 
+        Button mSourcePlanDrop = holder.get(R.id.source_plan_item_bt_source_search);
         //计算素材
         //需求
         mSourcePlanNeed.setText("需求: " + sourcePlanBean.getSourceCount() + "");
@@ -205,6 +206,14 @@ public class ExpandableAdapter extends GroupedRecyclerViewAdapter {
                                     }
                                 })
                         .show();
+            }
+        });
+
+
+        mSourcePlanDrop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sourceDropListener.dropListener(groupPosition);
             }
         });
 
@@ -301,5 +310,17 @@ public class ExpandableAdapter extends GroupedRecyclerViewAdapter {
 
     public interface SourceInputListener {
         void inputListener(CharSequence input, String name, int pos);
+    }
+
+    //掉落
+
+    private SourceDropListener sourceDropListener;
+
+    public void setSourceDropListener(SourceDropListener sourceDropListener) {
+        this.sourceDropListener = sourceDropListener;
+    }
+
+    public interface SourceDropListener {
+        void dropListener(int pos);
     }
 }

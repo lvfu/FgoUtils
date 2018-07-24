@@ -6,6 +6,7 @@ import com.fgo.utils.bean.BaseCommonBean;
 import com.fgo.utils.bean.LoginBean;
 import com.fgo.utils.bean.ServantListNBean;
 import com.fgo.utils.bean.ServantSkillPlanBean;
+import com.fgo.utils.bean.SourceDropBean;
 import com.fgo.utils.bean.SourcesPlanBean;
 import com.fgo.utils.constant.GlobalConstant;
 import com.fgo.utils.face.GetRequest_Interface;
@@ -162,11 +163,28 @@ public class BaseRetrofitService {
         RetrofitLoder.getInstance().post(call, callBack);
     }
 
+    /**
+     * 设置素材数量
+     *
+     * @param userId
+     * @param sourceCount
+     * @param sourceName
+     * @param callBack
+     */
     public void insertSourceCount(int userId, int sourceCount, String sourceName, StringCallBack callBack) {
 
         GetRequest_Interface request = retrofit.create(GetRequest_Interface.class);
         //对 发送请求 进行封装
         Call<BaseCommonBean<SourcesPlanBean>> call = request.insertSourceCount(userId, sourceCount, sourceName, VERSION_1_1);
+
+        RetrofitLoder.getInstance().post(call, callBack);
+    }
+
+    public void getSourceDropData(String position, StringCallBack callBack) {
+
+        GetRequest_Interface request = retrofit.create(GetRequest_Interface.class);
+        //对 发送请求 进行封装
+        Call<BaseCommonBean<SourceDropBean>> call = request.getSourceDropData(position, VERSION_1_1);
 
         RetrofitLoder.getInstance().post(call, callBack);
     }

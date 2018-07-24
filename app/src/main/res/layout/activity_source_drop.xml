@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:text="素材掉落" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/source_drop_source_name_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,20 +33,33 @@
             android:id="@+id/source_drop_source_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/hero_item_iv"
             android:text="英雄之证"
             android:textColor="@color/google_red"
             android:textSize="15sp" />
 
+        <TextView
 
-    </LinearLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/source_drop_source_name_tv"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/hero_item_iv"
+            android:text="红色标题为最优获取"
+            android:textSize="12sp" />
+
+
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/source_drop_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone" />
+        android:layout_below="@+id/source_drop_source_name_ll"
+        android:layout_marginTop="10dp" />
 
 
 </RelativeLayout>
