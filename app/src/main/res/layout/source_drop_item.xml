@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:id="@+id/hero_item_ll"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/source_drop_bac">
+
+
+        <TextView
+            android:id="@+id/source_drop_item_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/hero_item_iv"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@+id/hero_item_iv"
+            android:text="address"
+            android:textColor="@color/google_black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/source_drop_item_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/hero_item_iv"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/source_drop_item_address"
+            android:text="(loation)"
+            android:textColor="@color/google_black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/source_drop_item_xl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/source_drop_item_address"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="15dp"
+            android:text="效率:"
+            android:textColor="@color/google_blue" />
+
+        <TextView
+            android:id="@+id/source_drop_item_ap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/source_drop_item_address"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/source_drop_item_xl"
+            android:text="20ap/次"
+            android:textColor="@color/google_green" />
+
+
+        <TextView
+            android:id="@+id/source_drop_item_ap_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/source_drop_item_address"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/source_drop_item_ap"
+            android:text="5ap/个"
+            android:textColor="@color/google_green" />
+    </RelativeLayout>
+</LinearLayout>
