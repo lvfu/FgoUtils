@@ -40,7 +40,7 @@ public class MainActivity extends QuickActivity<IIPAddrView, IPAddrPresenter> im
     @Override
     public void initUI() {
         ButterKnife.bind(this);
-//        SytemTar.getInstance().applyKitKatTranslucency(this);//状态栏
+        StatusBarUtil.setStatusBarLightMode(getWindow());
         StatusBarUtil.setColor(this, getResources().getColor(R.color.google_red), 0);
         initBottomNavigation();
 
@@ -75,7 +75,7 @@ public class MainActivity extends QuickActivity<IIPAddrView, IPAddrPresenter> im
     }
 
     @Override
-    public void setServantList(List<ServantItem> list,List<ServantSkill> skillList) {
+    public void setServantList(List<ServantItem> list, List<ServantSkill> skillList) {
         servantList.addAll(list);
         servantSkillList.addAll(skillList);
     }

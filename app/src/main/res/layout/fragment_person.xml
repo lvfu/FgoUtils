@@ -25,8 +25,8 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="20dp"
             android:src="@mipmap/person_default_image"
-            app:civ_border_color="@color/google_write"
-            app:civ_border_width="2dp" />
+            app:civ_border_color="@color/google_deep_gray"
+            app:civ_border_width="0.5dp" />
 
         <RelativeLayout
             android:id="@+id/persion_normal_top_ll"

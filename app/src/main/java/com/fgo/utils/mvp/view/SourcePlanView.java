@@ -16,4 +16,6 @@ public interface SourcePlanView extends BaseView {
 
 
     void parseSouceListData(BaseCommonBean body);
+
+    void parseInsertData(BaseCommonBean body);
 }

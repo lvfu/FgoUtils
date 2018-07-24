@@ -17,6 +17,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
             android:text="登陆账号"
+            android:textStyle="bold"
             android:textColor="@color/google_red"
             android:textSize="17sp" />
 

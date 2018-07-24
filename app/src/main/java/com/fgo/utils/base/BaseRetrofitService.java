@@ -161,4 +161,13 @@ public class BaseRetrofitService {
 
         RetrofitLoder.getInstance().post(call, callBack);
     }
+
+    public void insertSourceCount(int userId, int sourceCount, String sourceName, StringCallBack callBack) {
+
+        GetRequest_Interface request = retrofit.create(GetRequest_Interface.class);
+        //对 发送请求 进行封装
+        Call<BaseCommonBean<SourcesPlanBean>> call = request.insertSourceCount(userId, sourceCount, sourceName, VERSION_1_1);
+
+        RetrofitLoder.getInstance().post(call, callBack);
+    }
 }

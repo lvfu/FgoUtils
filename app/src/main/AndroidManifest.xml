@@ -57,6 +57,7 @@
         <activity
             android:name=".activity.SettingActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.SourceDropActivity"></activity>
     </application>
 
 </manifest>

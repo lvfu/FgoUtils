@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/google_gray"
     tools:context=".activity.SettingActivity">
 
     <TextView
@@ -36,15 +37,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/google_red"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/logout_account_tv"
             style="@style/persion_normal_item_style"
+            android:background="@color/google_write"
+            android:drawableRight="@null"
             android:gravity="center"
             android:text="退出登录"
-            android:drawableRight="@null"
-            android:textColor="@color/google_write" />
+            android:textColor="@color/google_red" />
     </LinearLayout>
 </RelativeLayout>

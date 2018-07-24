@@ -60,5 +60,4 @@ dependencies {
     compile 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
 
 
-
 }

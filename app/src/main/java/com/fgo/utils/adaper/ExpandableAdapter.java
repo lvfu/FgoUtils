@@ -47,7 +47,6 @@ public class ExpandableAdapter extends GroupedRecyclerViewAdapter {
         SourcesPlanBean sourcePlanBean = sourcePlanList.get(pos);
         //如果是打开的就让他继续打开
         if (sourcePlanBean.isExpand()) {
-
             sourcePlanBean.setExpand(true);
             sourcePlan.get(pos).setExpand(true);
         } else {
@@ -154,7 +153,7 @@ public class ExpandableAdapter extends GroupedRecyclerViewAdapter {
 
 
     @Override
-    public void onBindChildViewHolder(BaseViewHolder holder, final int groupPosition, int childPosition) {
+    public void onBindChildViewHolder(BaseViewHolder holder, final int groupPosition, final int childPosition) {
         final SourcesPlanBean sourcePlanBean = sourcePlanList.get(groupPosition);
 
         TextView mSourcePlanNeed = holder.get(R.id.source_plan_item_need);
@@ -162,8 +161,6 @@ public class ExpandableAdapter extends GroupedRecyclerViewAdapter {
         final TextView mSourcePlanSurplus = holder.get(R.id.source_plan_item_surplus);
 
         Button mSourcePlanSetting = holder.get(R.id.source_plan_item_bt_source_setting);
-
-        Button mSourcePlanSearch = holder.get(R.id.source_plan_item_bt_source_search);
 
         //计算素材
         //需求
@@ -204,7 +201,7 @@ public class ExpandableAdapter extends GroupedRecyclerViewAdapter {
                                             mSourcePlanSurplus.setText("缺口: " + surplus);
                                         }
 
-                                        sourceInputListener.inputListener(input, groupPosition);
+                                        sourceInputListener.inputListener(input, sourcePlanBean.getSourceName(), groupPosition);
                                     }
                                 })
                         .show();
@@ -282,9 +279,6 @@ public class ExpandableAdapter extends GroupedRecyclerViewAdapter {
         }
     }
 
-    public void toChangeGroup(int groupPosition) {
-        changeGroup(groupPosition);
-    }
 
     //按钮点击回调，不用他们组头的点击回调
     private HeadImageClickListener headImageClickListener;
@@ -306,6 +300,6 @@ public class ExpandableAdapter extends GroupedRecyclerViewAdapter {
     }
 
     public interface SourceInputListener {
-        void inputListener(CharSequence input, int pos);
+        void inputListener(CharSequence input, String name, int pos);
     }
 }

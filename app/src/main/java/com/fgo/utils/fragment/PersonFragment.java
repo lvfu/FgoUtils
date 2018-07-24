@@ -3,6 +3,9 @@ package com.fgo.utils.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.fgo.utils.activity.SettingActivity;
 import com.fgo.utils.base.CircleImageView;
 import com.fgo.utils.base.PrefUtil;
@@ -33,9 +38,12 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 /**
@@ -55,6 +63,8 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
     private EditText mRegeistNickName, mRegeistUserName, mRegeistPwd, mLoginPwd, mLoginUserName;
     private RelativeLayout noAccountLl, haveAccountLl;
     private LinearLayout mPersionSetting;
+    private String filePath;
+    private RelativeLayout rl_upLinlayout;
 
     @Override
     public int getRootViewId() {
@@ -77,7 +87,7 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
         mLoginl1 = findView(R.id.persion_login_ll);
         mLoginTv = findView(R.id.persion_regeist_login_tv);
         mToRegeistTv = findView(R.id.persion_login_toregeist_tv);
-
+        rl_upLinlayout = findView(R.id.fl_fourth_container_upper);
         //注册
         mRegeistFinsh = findView(R.id.persion_regeist_finish_btn);
         mRegeistNickName = findView(R.id.persion_regeist_nickname_et);
@@ -99,10 +109,22 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
         //设置
         mPersionSetting = findView(R.id.persion_bottom_setting_ll);
 
+        icon();
         isLogin();
 
         setOnClick();
 
+    }
+
+    private void icon() {
+        //保存图片的路径
+        filePath = Environment.getExternalStorageDirectory().getPath() + "/Fate/icon";
+        File f = new File(filePath);
+        if (f.exists()) {
+            Glide.with(context.getApplicationContext()).load(f + "/icon.png").into(mCircleImageView);
+        } else {
+            f.mkdirs();
+        }
     }
 
     /**
@@ -112,7 +134,6 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
 
         boolean is_login = PrefUtil.getBoolean(getContext(), "is_login", false);
         if (is_login) {
-
             String nickname = (String) SharedPreferencesUtils.getParam(getContext(), "nickname", "");
             noAccountLl.setVisibility(View.GONE);
             haveAccountLl.setVisibility(View.VISIBLE);
@@ -259,11 +280,34 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
                     selectList = PictureSelector.obtainMultipleResult(data);
                     LocalMedia localMedia = selectList.get(0);
                     Glide.with(getContext().getApplicationContext()).load(localMedia.getPath()).into(mCircleImageView);
+
+                    Bitmap bitmap = BitmapFactory.decodeFile(localMedia.getPath());
+                    saveImg(bitmap);
                     break;
             }
         }
     }
 
+    private void saveImg(Bitmap mBitmap) {
+        File f = new File(filePath, "/icon.png");
+        try {
+            //如果文件不存在，则创建文件
+            if (!f.exists()) {
+                f.createNewFile();
+            }
+            //输出流
+            FileOutputStream out = new FileOutputStream(f);
+            mBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+            out.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     @Override
     public void onDestroy() {
@@ -315,6 +359,8 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
             haveAccountLl.setVisibility(View.VISIBLE);
             mNickNameTv.setText(model.getNickName() + "");
 
+            mLoginUserName.setText("");
+            mLoginPwd.setText("");
             PrefUtil.setBoolean(getContext(), "is_login", true);
             SharedPreferencesUtils.setParam(getContext(), "userId", model.getUserId());
             SharedPreferencesUtils.setParam(getContext(), "nickname", model.getNickName());
@@ -341,7 +387,7 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
 
     private void loginOut() {
         PrefUtil.setBoolean(getContext(), "is_login", false);
-        SharedPreferencesUtils.setParam(getContext(), "userId", "");
+        SharedPreferencesUtils.setParam(getContext(), "userId", 0);
         SharedPreferencesUtils.setParam(getContext(), "nickname", "");
         mRegeistLl1.setVisibility(View.GONE);
         noAccountLl.setVisibility(View.VISIBLE);

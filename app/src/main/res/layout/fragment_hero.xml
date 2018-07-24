@@ -16,6 +16,7 @@
         android:id="@+id/hero_fragment_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/tv_home_personal_top_name"
         android:background="#f5f5f5">
 

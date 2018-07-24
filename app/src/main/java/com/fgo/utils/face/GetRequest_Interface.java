@@ -124,4 +124,13 @@ public interface GetRequest_Interface {
     @GET("fate/SourcesPlan/SourceCount")
     Call<BaseCommonBean<SourcesPlanBean>> getSourceList(@Query("userId") int userId, @Query("version") String version);
 
+    /**
+     * 设置素材数量
+     *
+     * @param userId
+     * @param version
+     * @return
+     */
+    @GET("fate/SourcesPlan/SourceOperate")
+    Call<BaseCommonBean<SourcesPlanBean>> insertSourceCount(@Query("userId") int userId, @Query("sourceCount") int sourceCount, @Query("sourceName") String sourceName, @Query("version") String version);
 }

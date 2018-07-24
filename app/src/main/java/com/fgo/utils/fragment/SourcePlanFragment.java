@@ -41,6 +41,8 @@ public class SourcePlanFragment extends QuickFragment<SourcePlanView, SourcePlan
     private String msg;
     private SourcePlanPresenter sourcePlanPresenter;
     private int userId;
+    private List<SourcesPlanBean> sourcePlan;
+    private int updatePosition;
 
     @Override
     public int getRootViewId() {
@@ -96,7 +98,7 @@ public class SourcePlanFragment extends QuickFragment<SourcePlanView, SourcePlan
     public void initAdaper(List<SourcesPlanBean> list) {
 
         sourcePlanAdaper = new ExpandableAdapter(getContext(), list);
-
+        mSourcePlanRv.setAdapter(sourcePlanAdaper);
 
         sourcePlanAdaper.setHeadImageClickListener(new ExpandableAdapter.HeadImageClickListener() {
             @Override
@@ -117,38 +119,24 @@ public class SourcePlanFragment extends QuickFragment<SourcePlanView, SourcePlan
 
         //输入资源后回调
         sourcePlanAdaper.setSourceInputListener(new ExpandableAdapter.SourceInputListener() {
+
+
             @Override
-            public void inputListener(CharSequence input, int pos) {
-//                String name = sourcePlan.get(pos).getName();
-//                //把素材写入数据库
-//                setDataToDb(name, input + "");
-//
-//                //从数据库读取
-////                Cursor cur;
-////                cur = dbManager.database.rawQuery("SELECT * FROM Materials WHERE " +
-////                                "name LIKE ?",
-////                        new String[]{"%" + name + "%"});
-//
-//                //模糊查询
-//                Cursor cur = DbUtils.searchData(dbManager, getContext(), "Materials", name, "", false);
-//                ArrayList<SourcePlanBean> sourcePlanBeanList = CommonUtils.getSkillList(cur);
-//
-//                if (cur != null) {
-//                    cur.close();
-//                }
-//                dbManager.closeDatabase();
-//
-//                //获取对应位置bean替换，局部刷新
-//                SourcePlanBean sourcePlanBean = sourcePlanBeanList.get(0);
-//                sourcePlan.set(pos, sourcePlanBean);
-//
-//                sourcePlanAdaper.setData(sourcePlan, pos);
+            public void inputListener(CharSequence input, String name, int posi) {
+                userId = (int) SharedPreferencesUtils.getParam(getContext(), "userId", 0);
+                if (userId != 0) {
+                    int count = Integer.parseInt(input + "");
+                    updatePosition = posi;
+                    sourcePlanPresenter.insertSourceCount(userId, count, name);
+                } else {
+                    Toast.makeText(getContext(), "请登陆账号", Toast.LENGTH_SHORT).show();
+                }
 
 
             }
         });
 
-        mSourcePlanRv.setAdapter(sourcePlanAdaper);
+
     }
 
 
@@ -164,8 +152,27 @@ public class SourcePlanFragment extends QuickFragment<SourcePlanView, SourcePlan
         String respMsg = body.getRespMsg();
         BaseCommonBean.BaseCommonData data = body.getData();
         if ("success".equals(respCode)) {
-            List<SourcesPlanBean> list = data.getList();
-            initAdaper(list);
+            sourcePlan = data.getList();
+            initAdaper(sourcePlan);
+        } else {
+            Toast.makeText(getContext(), respMsg, Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    @Override
+    public void parseInsertData(BaseCommonBean body) {
+        String respCode = body.getRespCode();
+        String respMsg = body.getRespMsg();
+        BaseCommonBean.BaseCommonData data = body.getData();
+        if ("success".equals(respCode)) {
+            SourcesPlanBean sourcesPlanBean = (SourcesPlanBean) data.getModel();
+
+            //获取对应位置bean替换，局部刷新
+            sourcePlan.set(updatePosition, sourcesPlanBean);
+
+            sourcePlanAdaper.setData(sourcePlan, updatePosition);
+
         } else {
             Toast.makeText(getContext(), respMsg, Toast.LENGTH_SHORT).show();
 

@@ -25,7 +25,6 @@ public abstract class GroupedRecyclerViewAdapter
     public static final int TYPE_HEADER = R.integer.type_header;
     public static final int TYPE_FOOTER = R.integer.type_footer;
     public static final int TYPE_CHILD = R.integer.type_child;
-    public static final int TYPE_EMPTY = R.integer.type_empty;
 
     private OnHeaderClickListener mOnHeaderClickListener;
     private OnFooterClickListener mOnFooterClickListener;
@@ -119,8 +118,6 @@ public abstract class GroupedRecyclerViewAdapter
                 });
             }
             onBindChildViewHolder((BaseViewHolder) holder, groupPosition, childPosition);
-        } else if (type == TYPE_EMPTY) {
-
         }
     }
 
@@ -144,8 +141,6 @@ public abstract class GroupedRecyclerViewAdapter
         } else if (type == TYPE_CHILD) {
             int childPosition = getChildPositionForPosition(groupPosition, position);
             return getChildViewType(groupPosition, childPosition);
-        } else if (type == TYPE_EMPTY) {
-            return TYPE_EMPTY;
         }
         return super.getItemViewType(position);
     }
@@ -174,8 +169,6 @@ public abstract class GroupedRecyclerViewAdapter
             return getFooterLayout(viewType);
         } else if (type == TYPE_CHILD) {
             return getChildLayout(viewType);
-        } else if (type == TYPE_EMPTY) {
-            return getTypeEmpty(viewType);
         }
         return 0;
     }
@@ -193,10 +186,6 @@ public abstract class GroupedRecyclerViewAdapter
     public int judgeType(int position) {
         int itemCount = 0;
         int groupCount = mStructures.size();
-
-        if (position == 0) {
-            return TYPE_EMPTY;
-        }
 
         for (int i = 0; i < groupCount; i++) {
             GroupStructure structure = mStructures.get(i);

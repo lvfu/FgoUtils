@@ -24,6 +24,7 @@ public class SourcePlanPresenter extends BasePresenter<SourcePlanView> {
 
     /**
      * 素材列表
+     *
      * @param userId
      */
     public void initSourceList(int userId) {
@@ -32,7 +33,30 @@ public class SourcePlanPresenter extends BasePresenter<SourcePlanView> {
             public void onResponse(Response respBody) {
                 BaseCommonBean body = (BaseCommonBean) respBody.body();
                 getView().parseSouceListData(body);
-        }
+            }
+
+            @Override
+            public void onEroor(Call errorBody) {
+                System.out.println("连接失败");
+            }
+        });
+    }
+
+    /**
+     * 设置素材数量
+     *
+     * @param userId
+     * @param sourceCount
+     * @param sourceName
+     */
+    public void insertSourceCount(int userId, int sourceCount, String sourceName) {
+
+        BaseRetrofitService.getInstance().insertSourceCount(userId, sourceCount, sourceName, new StringCallBack() {
+            @Override
+            public void onResponse(Response respBody) {
+                BaseCommonBean body = (BaseCommonBean) respBody.body();
+                getView(). parseInsertData(body);
+            }
 
             @Override
             public void onEroor(Call errorBody) {

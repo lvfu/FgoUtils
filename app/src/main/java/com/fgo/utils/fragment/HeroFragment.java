@@ -88,9 +88,13 @@ public class HeroFragment extends QuickFragment<HeroView, HeroPresenter> impleme
 
     @Override
     public void showServantList(BaseCommonBean<ServantListNBean> body) {
-
+        if (body == null) {
+            getbodyIsNull();
+            return;
+        }
         String respCode = body.getRespCode();
         String respMsg = body.getRespMsg();
+
         BaseCommonBean.BaseCommonData data = body.getData();
         if ("success".equals(respCode)) {
 
@@ -104,5 +108,9 @@ public class HeroFragment extends QuickFragment<HeroView, HeroPresenter> impleme
 
         }
 
+    }
+
+    private void getbodyIsNull() {
+        presenter.getServantList();
     }
 }
