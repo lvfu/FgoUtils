@@ -59,5 +59,7 @@ dependencies {
 //    //图片选择库
     compile 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
 
+    //video
+    compile 'cn.jzvd:jiaozivideoplayer:6.2.12'
 
 }

@@ -15,6 +15,7 @@
     <color name="google_write">#ffffff</color>
     <color name="google_gray">#f5f5f5</color>
     <color name="google_deep_gray">#c6c6c6</color>
+    <color name="google_deep_down_gray">#9f9f9f</color>
 
     <color name="spiner_fund_item">#545454</color>
     <color name="spiner_item">#8D8D8D</color>
@@ -45,6 +46,6 @@
 
 
     <color name="tar_red">#ea5035</color>
-
+    <color name="style_cocler_smalle">#8d8d8d</color>
     <color name="persion_finish">#f4f0f0</color>
 </resources>

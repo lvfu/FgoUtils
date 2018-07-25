@@ -56,12 +56,12 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
 
     private PersonPresenter personPresenter;
     private CircleImageView mCircleImageView;
-    private TextView mAddAccoumtTv, mLoginTv, mToRegeistTv, mNickNameTv;
+    private TextView mLoginTv, mToRegeistTv, mNickNameTv;
     private LinearLayout mRegeistLl1, mNormalLl1, mLoginl1;
     List<LocalMedia> selectList = new ArrayList<>();
-    private Button mRegeistFinsh, mLoginFinsh;
+    private Button mRegeistFinsh, mLoginFinsh, mLoginRegeist;
     private EditText mRegeistNickName, mRegeistUserName, mRegeistPwd, mLoginPwd, mLoginUserName;
-    private RelativeLayout noAccountLl, haveAccountLl;
+    private RelativeLayout haveAccountLl;
     private LinearLayout mPersionSetting;
     private String filePath;
     private RelativeLayout rl_upLinlayout;
@@ -87,7 +87,9 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
         mLoginl1 = findView(R.id.persion_login_ll);
         mLoginTv = findView(R.id.persion_regeist_login_tv);
         mToRegeistTv = findView(R.id.persion_login_toregeist_tv);
+
         rl_upLinlayout = findView(R.id.fl_fourth_container_upper);
+
         //注册
         mRegeistFinsh = findView(R.id.persion_regeist_finish_btn);
         mRegeistNickName = findView(R.id.persion_regeist_nickname_et);
@@ -98,10 +100,8 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
         mLoginFinsh = findView(R.id.persion_login_finish_btn);
         mLoginPwd = findView(R.id.persion_login_pwd_et);
         mLoginUserName = findView(R.id.persion_login_username_et);
+        mLoginRegeist = findView(R.id.persion_toreg_finish_btn);
 
-        //无账号topll
-        noAccountLl = findView(R.id.persion_normal_no_account_ll);
-        mAddAccoumtTv = findView(R.id.persion_no_account_tv);
         //有账号
         haveAccountLl = findView(R.id.persion_normal_top_ll);
         mNickNameTv = findView(R.id.persion_name_tv);
@@ -135,27 +135,32 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
         boolean is_login = PrefUtil.getBoolean(getContext(), "is_login", false);
         if (is_login) {
             String nickname = (String) SharedPreferencesUtils.getParam(getContext(), "nickname", "");
-            noAccountLl.setVisibility(View.GONE);
-            haveAccountLl.setVisibility(View.VISIBLE);
             mNickNameTv.setText(nickname);
+            haveAccountLl.setVisibility(View.VISIBLE);
+            mNormalLl1.setVisibility(View.VISIBLE);
+            mRegeistLl1.setVisibility(View.GONE);
+            mLoginl1.setVisibility(View.GONE);
+            rl_upLinlayout.setVisibility(View.VISIBLE);
+
         } else {
-            noAccountLl.setVisibility(View.VISIBLE);
             haveAccountLl.setVisibility(View.GONE);
+            mNormalLl1.setVisibility(View.GONE);
+            mRegeistLl1.setVisibility(View.GONE);
+            mLoginl1.setVisibility(View.VISIBLE);
+            rl_upLinlayout.setVisibility(View.GONE);
         }
-        mNormalLl1.setVisibility(View.VISIBLE);
-        mRegeistLl1.setVisibility(View.GONE);
-        mLoginl1.setVisibility(View.GONE);
+
 
     }
 
     private void setOnClick() {
-        mAddAccoumtTv.setOnClickListener(this);
         mLoginTv.setOnClickListener(this);
         mToRegeistTv.setOnClickListener(this);
         mCircleImageView.setOnClickListener(this);
         mRegeistFinsh.setOnClickListener(this);
         mLoginFinsh.setOnClickListener(this);
         mPersionSetting.setOnClickListener(this);
+        mLoginRegeist.setOnClickListener(this);
     }
 
     @Override
@@ -173,23 +178,18 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.persion_no_account_tv:
-                if (mRegeistLl1.getVisibility() == View.VISIBLE) {
-                    mRegeistLl1.setVisibility(View.GONE);
-                    mNormalLl1.setVisibility(View.VISIBLE);
-                    mLoginl1.setVisibility(View.GONE);
-
-                } else {
-                    mRegeistLl1.setVisibility(View.VISIBLE);
-                    mNormalLl1.setVisibility(View.GONE);
-                    mLoginl1.setVisibility(View.GONE);
-                }
+            case R.id.persion_toreg_finish_btn:
+                mRegeistLl1.setVisibility(View.VISIBLE);
+                mNormalLl1.setVisibility(View.GONE);
+                mLoginl1.setVisibility(View.GONE);
+                rl_upLinlayout.setVisibility(View.GONE);
                 break;
 
             case R.id.persion_regeist_login_tv:
                 mRegeistLl1.setVisibility(View.GONE);
                 mNormalLl1.setVisibility(View.GONE);
                 mLoginl1.setVisibility(View.VISIBLE);
+                rl_upLinlayout.setVisibility(View.GONE);
                 break;
 
 
@@ -197,6 +197,7 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
                 mRegeistLl1.setVisibility(View.VISIBLE);
                 mNormalLl1.setVisibility(View.GONE);
                 mLoginl1.setVisibility(View.GONE);
+                rl_upLinlayout.setVisibility(View.GONE);
                 break;
 
             //设置
@@ -206,7 +207,7 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
                 break;
 
             case R.id.persion_regeist_finish_btn:
-//                mRegeistNickName，mRegeistUserName，mRegeistPwd
+
                 String nickname = mRegeistNickName.getText().toString().trim();
                 if (TextUtils.isEmpty(nickname)) {
                     Toast.makeText(getContext(), "昵称不可为空", Toast.LENGTH_SHORT).show();
@@ -325,9 +326,10 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
             String result = data.getResult();
             if ("True".equals(result)) {
 //                //bottomll
-                mRegeistLl1.setVisibility(View.GONE);
-                mNormalLl1.setVisibility(View.VISIBLE);
+                mRegeistLl1.setVisibility(View.VISIBLE);
+                mNormalLl1.setVisibility(View.GONE);
                 mLoginl1.setVisibility(View.GONE);
+                rl_upLinlayout.setVisibility(View.GONE);
 
                 mRegeistNickName.setText("");
                 mRegeistUserName.setText("");
@@ -354,8 +356,8 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
             mRegeistLl1.setVisibility(View.GONE);
             mNormalLl1.setVisibility(View.VISIBLE);
             mLoginl1.setVisibility(View.GONE);
+            rl_upLinlayout.setVisibility(View.VISIBLE);
 
-            noAccountLl.setVisibility(View.GONE);
             haveAccountLl.setVisibility(View.VISIBLE);
             mNickNameTv.setText(model.getNickName() + "");
 
@@ -378,10 +380,12 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
             loginOut();
             mLoginl1.setVisibility(View.VISIBLE);
             mNormalLl1.setVisibility(View.GONE);
+            rl_upLinlayout.setVisibility(View.GONE);
         } else if (messageEvent.getMessage().equals("refreshPersonForLoginOutAccount")) {
             loginOut();
-            mLoginl1.setVisibility(View.GONE);
-            mNormalLl1.setVisibility(View.VISIBLE);
+            mLoginl1.setVisibility(View.VISIBLE);
+            mNormalLl1.setVisibility(View.GONE);
+            rl_upLinlayout.setVisibility(View.GONE);
         }
     }
 
@@ -390,7 +394,6 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
         SharedPreferencesUtils.setParam(getContext(), "userId", 0);
         SharedPreferencesUtils.setParam(getContext(), "nickname", "");
         mRegeistLl1.setVisibility(View.GONE);
-        noAccountLl.setVisibility(View.VISIBLE);
         haveAccountLl.setVisibility(View.GONE);
     }
 }

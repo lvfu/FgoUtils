@@ -101,7 +101,6 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">50dp</item>
         <item name="android:drawablePadding">16dp</item>
-        <item name="android:drawableRight">@mipmap/fragmentation_ic_right</item>
         <item name="android:textSize">16sp</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingLeft">16dp</item>

@@ -18,4 +18,6 @@ public class GlobalData {
     }
 
     public List<ServantSkill> servantSkillsList = new ArrayList<>();
+
+    public boolean canShow = true;
 }

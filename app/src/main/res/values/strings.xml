@@ -81,7 +81,7 @@
     <string name="person_init_db_ok">确认</string>
     <string name="person_init_db_cancle">取消</string>
 
-    <string name="servant_wifi_video_content">当前网络状态非wifi状态，是否播放</string>
+    <string name="servant_wifi_video_content">当前网络状态非wifi状态，是否加载宝具动画</string>
 
 
     <string name="fund_class_type">职介</string>
@@ -101,5 +101,9 @@
 
     <string name="agree">同意</string>
     <string name="disagree">取消</string>
+    <string name="no_say">不再提醒</string>
 
+    <string name="empty_msg">数据..走丢了..</string>
+    <string name="refresh_button_tv">刷新一下</string>
+    <string name="empty_source_drop_msg">数据..未找到..</string>
 </resources>

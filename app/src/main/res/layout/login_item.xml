@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="70dp"
     android:background="#f5f5f5"
     android:orientation="vertical">
 
@@ -10,16 +11,19 @@
         android:layout_height="match_parent"
         android:background="@color/google_write">
 
+
         <TextView
             android:id="@+id/persion_login_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"
             android:layout_marginTop="5dp"
-            android:text="登陆账号"
-            android:textStyle="bold"
+            android:drawableLeft="@mipmap/smell"
+            android:drawablePadding="5dp"
+            android:text="欢迎来到 FGO UTILS"
             android:textColor="@color/google_red"
-            android:textSize="17sp" />
+            android:textSize="20sp" />
 
 
         <LinearLayout

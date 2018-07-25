@@ -37,6 +37,7 @@
         </activity>
         <activity
             android:name=".activity.ServantActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SkillActivity"

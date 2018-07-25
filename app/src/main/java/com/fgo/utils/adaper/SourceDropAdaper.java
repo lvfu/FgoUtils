@@ -40,10 +40,15 @@ public class SourceDropAdaper extends RecyclerView.Adapter {
         if (position == 0) {
             sourceDropHolder.address.setTextColor(mContext.getResources().getColor(R.color.google_red));
             sourceDropHolder.location.setTextColor(mContext.getResources().getColor(R.color.google_red));
-        }else {
-            sourceDropHolder.address.setTextColor(mContext.getResources().getColor(R.color.google_black));
-            sourceDropHolder.location.setTextColor(mContext.getResources().getColor(R.color.google_black));
+            sourceDropHolder.ap.setTextColor(mContext.getResources().getColor(R.color.google_red));
+            sourceDropHolder.apone.setTextColor(mContext.getResources().getColor(R.color.google_red));
+        } else {
+            sourceDropHolder.address.setTextColor(mContext.getResources().getColor(R.color.google_deep_down_gray));
+            sourceDropHolder.location.setTextColor(mContext.getResources().getColor(R.color.google_deep_down_gray));
+            sourceDropHolder.ap.setTextColor(mContext.getResources().getColor(R.color.google_deep_down_gray));
+            sourceDropHolder.apone.setTextColor(mContext.getResources().getColor(R.color.google_deep_down_gray));
         }
+
         sourceDropHolder.address.setText(dropInfo.getAddress());
         sourceDropHolder.location.setText("(" + dropInfo.getLocation() + ")");
         sourceDropHolder.ap.setText(dropInfo.getAp() + "AP/次");

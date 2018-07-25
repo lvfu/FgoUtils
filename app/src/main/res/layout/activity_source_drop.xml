@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/google_gray"
     tools:context=".activity.SourceDropActivity">
 
     <TextView
@@ -11,6 +12,7 @@
         style="@style/MyTopTheme"
         android:layout_alignParentTop="true"
         android:text="素材掉落" />
+
 
     <RelativeLayout
         android:id="@+id/source_drop_source_name_ll"
@@ -51,15 +53,23 @@
             android:text="红色标题为最优获取"
             android:textSize="12sp" />
 
-
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/source_drop_rv"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/source_drop_source_name_ll"
-        android:layout_marginTop="10dp" />
+        android:orientation="vertical">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/source_drop_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+        <include
+            android:id="@+id/empty_data_normal"
+            layout="@layout/empty_data_source_drop" />
+    </LinearLayout>
 
 </RelativeLayout>

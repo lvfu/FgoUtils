@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,9 +21,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.fgo.utils.adaper.HeroFragmentAdaper;
 import com.fgo.utils.bean.BaseCommonBean;
+import com.fgo.utils.bean.MessageEvent;
 import com.fgo.utils.bean.ServantDetailBean;
 import com.fgo.utils.bean.ServantListNBean;
 import com.fgo.utils.constant.GlobalData;
+import com.fgo.utils.utils.SharedPreferencesUtils;
 import com.king.frame.mvp.base.QuickActivity;
 import com.fgo.utils.R;
 import com.fgo.utils.adaper.ServantAdaper;
@@ -34,9 +37,16 @@ import com.fgo.utils.mvp.view.ServantView;
 import com.fgo.utils.utils.CommonUtils;
 import com.fgo.utils.utils.StatusBarUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.jzvd.JZUtils;
+import cn.jzvd.JZVideoPlayerStandard;
+
+import static cn.jzvd.JZVideoPlayer.WIFI_TIP_DIALOG_SHOWED;
 
 /**
  * Created by lvfu on 2018/4/11.
@@ -69,12 +79,11 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
     private RelativeLayout mSkillThreeRl;
     private TextView mTreasureTv;
     private ImageView mTreasureIv;
-    private VideoView mTreasureVideo;
+    private JZVideoPlayerStandard mTreasureVideo;
     private RelativeLayout mServantLl;
     private RelativeLayout mServantSourcePlan;
     private ServantPresenter servantPresenter;
     private ServantDetailBean servantItem;
-
 
 
     @Override
@@ -120,8 +129,7 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
         //宝具
         mTreasureTv = findViewById(R.id.servant_info_skill_treasure_name);
         mTreasureIv = findViewById(R.id.servant_info_treasure_iv);
-        mTreasureVideo = findViewById(R.id.servant_info_treasure_video);
-
+        mTreasureVideo = findViewById(R.id.videoplayer);
         //素材规划
         mServantSourcePlan = findViewById(R.id.servant_source_plane_ll);
         //配卡rv
@@ -143,6 +151,7 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
         mTreasureVideo.setOnClickListener(this);
         mServantLl.setOnClickListener(this);
         mServantSourcePlan.setOnClickListener(this);
+
     }
 
     @Override
@@ -184,6 +193,8 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
 
             //设置宝具
             setTreasure();
+            setTreasureVideo();
+
 
             mServantTitle.setText(servantItem.getName());
             mNickName.setText(servantItem.getNickname());
@@ -195,25 +206,6 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
         }
 
     }
-
-    //HANDLER 控制视屏dialog
-    private boolean isCanShowDialog = true;
-    Handler handler = new Handler();
-    Runnable runnable = new Runnable() {
-        public void run() {
-            if (!mTreasureVideo.isPlaying()) {
-                if (isCanShowDialog) {
-                    showProgressDialog();
-                }
-            } else {
-                if (isCanShowDialog) {
-                    dismissProgressDialog();
-                    isCanShowDialog = false;
-                }
-            }
-            handler.postDelayed(runnable, 500);//每0.5秒监听一次是否在播放视频
-        }
-    };
 
 
     private void setTreasure() {
@@ -347,29 +339,6 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
                 startActivity(intentThree);
                 break;
 
-            case R.id.servant_info_treasure_video:
-                boolean wifi = CommonUtils.isWifi(this);
-                if (wifi) {
-                    handler.postDelayed(runnable, 500);
-                    setTreasureVideo();
-
-                } else {
-                    new MaterialDialog.Builder(getContext())
-                            .title(R.string.person_init_db_title)
-                            .titleColor(getResources().getColor(R.color.colorAccent))
-                            .content(R.string.servant_wifi_video_content)
-                            .positiveText(R.string.person_init_db_ok)
-                            .negativeText(R.string.person_init_db_cancle)
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    handler.postDelayed(runnable, 500);
-                                    setTreasureVideo();
-                                }
-                            })
-                            .show();
-                }
-                break;
 
             case R.id.hero_item_ll:
                 Intent intentFour = new Intent(this, ServantSourceActivity.class);
@@ -401,16 +370,64 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
     private void setTreasureVideo() {
 
         //设置宝具动画
-        int resId = servantItem.getId();
-        String id = CommonUtils.getId(resId);
-        String url = "http://img.fgowiki.com/fgo/mp4/No." + id + ".mp4";
-        Uri uri = Uri.parse(url);
-        mTreasureVideo.setMediaController(new MediaController(this));
-        mTreasureVideo.setVideoURI(uri);
-        mTreasureVideo.start();
-        mTreasureVideo.requestFocus();
+        boolean wifi = CommonUtils.isWifi(this);
+        if (wifi) {
+            treasureVideo();
+        } else {
+            boolean canLoadImg = (boolean) SharedPreferencesUtils.getParam(ServantActivity.this, "canLoadImg", false);
+            if (canLoadImg == false) {
+                boolean canshowDialog = GlobalData.getInstance().canShow;
+
+                if (canshowDialog) {
+                    new MaterialDialog.Builder(this)
+                            .content("是否开启流量下加载宝具动画功能？")
+                            .positiveText(R.string.agree)
+                            .negativeText(R.string.no_say)
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                                    Intent intent = new Intent(ServantActivity.this, SettingActivity.class);
+                                    startActivity(intent);
+                                }
+                            })
+                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    GlobalData.getInstance().canShow = false;
+                                }
+                            })
+                            .show();
+                }
+
+            } else {
+                treasureVideo();
+            }
+        }
 
     }
 
+    private void treasureVideo() {
+
+        String cid = CommonUtils.getId(id);
+        String url = "http://img.fgowiki.com/fgo/mp4/No." + cid + ".mp4";
+        mTreasureVideo.setUp(url
+                , JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, servantItem.getName());
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mTreasureVideo.backPress()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mTreasureVideo.releaseAllVideos();
+    }
 
 }

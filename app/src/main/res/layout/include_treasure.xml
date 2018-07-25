@@ -43,16 +43,17 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/servant_info_skill_treasure_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:padding="30dp">
 
-        <VideoView
-            android:id="@+id/servant_info_treasure_video"
+        <cn.jzvd.JZVideoPlayerStandard
+            android:id="@+id/videoplayer"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="200dp"/>
     </LinearLayout>
 
 
