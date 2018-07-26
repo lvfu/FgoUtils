@@ -37,10 +37,9 @@ public class SkillActivity extends QuickActivity<SkillView, SkillPresenter> impl
     private TextView mTitle;
     private RecyclerView mSkillRv, mSkillSourceRv;
     private SkillSmallBean skillSmallBean;
-    private List<String> effectList;
     private List<SkillSourceBean> skillSourceList;
 
-    private boolean isCanNewList = true;
+
     private LinearLayout mSkillSourceLl;
     private SkillPresenter skillPresenter;
     private int id;

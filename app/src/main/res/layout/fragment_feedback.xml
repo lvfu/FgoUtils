@@ -7,7 +7,7 @@
         android:id="@+id/tv_home_personal_top_name"
         style="@style/MyTopTheme"
         android:layout_alignParentTop="true"
-        android:text="攻略" />
+        android:text="反馈" />
 
 
 </LinearLayout>

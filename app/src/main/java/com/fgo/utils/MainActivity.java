@@ -10,7 +10,7 @@ import com.fgo.utils.bean.ServantSkill;
 import com.fgo.utils.fragment.PersonFragment;
 import com.fgo.utils.fragment.HeroFragment;
 import com.fgo.utils.fragment.SourcePlanFragment;
-import com.fgo.utils.fragment.ParisFragment;
+import com.fgo.utils.fragment.FeedbackFragment;
 import com.fgo.utils.mvp.presenter.IPAddrPresenter;
 import com.fgo.utils.mvp.view.IIPAddrView;
 import com.fgo.utils.utils.StatusBarUtil;
@@ -51,8 +51,8 @@ public class MainActivity extends QuickActivity<IIPAddrView, IPAddrPresenter> im
 
         bottomTabBar.init(getSupportFragmentManager())
                 .addTabItem("从者", R.mipmap.hero, HeroFragment.class)
-                .addTabItem("攻略", R.mipmap.source, ParisFragment.class)
                 .addTabItem("规划", R.mipmap.wiki, SourcePlanFragment.class)
+                .addTabItem("反馈", R.mipmap.source, FeedbackFragment.class)
                 .addTabItem("个人", R.mipmap.person, PersonFragment.class);
 
     }

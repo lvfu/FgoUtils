@@ -7,7 +7,7 @@ import com.king.frame.mvp.base.BaseView;
  * @date 2017/7/5
  */
 
-public interface SourceView extends BaseView {
+public interface FeedbackView extends BaseView {
 
 
 }
