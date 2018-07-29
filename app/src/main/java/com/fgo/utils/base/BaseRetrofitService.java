@@ -3,6 +3,7 @@ package com.fgo.utils.base;
 import com.fgo.utils.base.retrofit.RetrofitLoder;
 import com.fgo.utils.base.retrofit.StringCallBack;
 import com.fgo.utils.bean.BaseCommonBean;
+import com.fgo.utils.bean.FeedBackListBean;
 import com.fgo.utils.bean.LoginBean;
 import com.fgo.utils.bean.ServantListNBean;
 import com.fgo.utils.bean.ServantSkillPlanBean;
@@ -180,11 +181,49 @@ public class BaseRetrofitService {
         RetrofitLoder.getInstance().post(call, callBack);
     }
 
+
     public void getSourceDropData(String position, StringCallBack callBack) {
 
         GetRequest_Interface request = retrofit.create(GetRequest_Interface.class);
         //对 发送请求 进行封装
         Call<BaseCommonBean<SourceDropBean>> call = request.getSourceDropData(position, VERSION_1_1);
+
+        RetrofitLoder.getInstance().post(call, callBack);
+    }
+
+    /**
+     * 交流列表
+     *
+     * @param callBack
+     */
+    public void getFeedBackData(StringCallBack callBack) {
+
+        GetRequest_Interface request = retrofit.create(GetRequest_Interface.class);
+        //对 发送请求 进行封装
+        Call<BaseCommonBean<FeedBackListBean>> call = request.getFeedBackData(VERSION_1_1);
+
+        RetrofitLoder.getInstance().post(call, callBack);
+    }
+
+    /**
+     * 设置技能素材
+     *
+     * @param
+     */
+    public void insertFeedBackData(JSONObject jsonObjectData, StringCallBack callBack) {
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("version", VERSION_1_1);
+            jsonObject.put("bean", jsonObjectData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), jsonObject.toString());
+
+        //对 发送请求 进行封装
+        Call<BaseCommonBean> call = request.insertFeedBackData(body);
 
         RetrofitLoder.getInstance().post(call, callBack);
     }

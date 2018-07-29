@@ -1,6 +1,7 @@
 package com.fgo.utils;
 
 import android.support.annotation.NonNull;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.hjm.bottomtabbar.BottomTabBar;
@@ -25,6 +26,7 @@ public class MainActivity extends QuickActivity<IIPAddrView, IPAddrPresenter> im
     BottomTabBar bottomTabBar;
     public List<ServantItem> servantList = new ArrayList<>();
     public List<ServantSkill> servantSkillList = new ArrayList<>();
+    private long firstPressedTime;
 
     @NonNull
     @Override
@@ -34,6 +36,7 @@ public class MainActivity extends QuickActivity<IIPAddrView, IPAddrPresenter> im
 
     @Override
     public int getRootViewId() {
+
         return R.layout.activity_main;
     }
 
@@ -52,7 +55,7 @@ public class MainActivity extends QuickActivity<IIPAddrView, IPAddrPresenter> im
         bottomTabBar.init(getSupportFragmentManager())
                 .addTabItem("从者", R.mipmap.hero, HeroFragment.class)
                 .addTabItem("规划", R.mipmap.wiki, SourcePlanFragment.class)
-                .addTabItem("反馈", R.mipmap.source, FeedbackFragment.class)
+                .addTabItem("交流", R.mipmap.source, FeedbackFragment.class)
                 .addTabItem("个人", R.mipmap.person, PersonFragment.class);
 
     }
@@ -60,7 +63,6 @@ public class MainActivity extends QuickActivity<IIPAddrView, IPAddrPresenter> im
 
     @Override
     public void initData() {
-//        getPresenter().getSeventData();
     }
 
     @Override
@@ -90,5 +92,21 @@ public class MainActivity extends QuickActivity<IIPAddrView, IPAddrPresenter> im
 
     public void setServantSkillList(List<ServantSkill> servantSkillList) {
         this.servantSkillList = servantSkillList;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (System.currentTimeMillis() - firstPressedTime < 2000) {
+            super.onBackPressed();
+        } else {
+            Toast.makeText(MainActivity.this, "再按一次退出", Toast.LENGTH_SHORT).show();
+            firstPressedTime = System.currentTimeMillis();
+        }
     }
 }

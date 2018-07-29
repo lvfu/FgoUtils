@@ -42,7 +42,7 @@
             <TextView
                 android:id="@+id/tv_btn_test1"
                 style="@style/persion_normal_item_style"
-                android:text="测试1" />
+                android:text="开源项目" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -65,7 +65,7 @@
             <TextView
                 android:id="@+id/tv_btn_test2"
                 style="@style/persion_normal_item_style"
-                android:text="测试2" />
+                android:text="关于" />
 
             <TextView
                 android:layout_width="match_parent"

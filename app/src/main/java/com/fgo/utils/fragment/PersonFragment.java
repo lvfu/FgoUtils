@@ -74,6 +74,7 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
     @Override
     public void initUI() {
         EventBus.getDefault().register(this);
+
         context = getContext();
 
         initView();
@@ -316,6 +317,12 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+
     //注册结果
     @Override
     public void showRegeistData(BaseCommonBean body) {
@@ -366,6 +373,7 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
             PrefUtil.setBoolean(getContext(), "is_login", true);
             SharedPreferencesUtils.setParam(getContext(), "userId", model.getUserId());
             SharedPreferencesUtils.setParam(getContext(), "nickname", model.getNickName());
+            EventBus.getDefault().post(new MessageEvent("refresh"));
         } else {
 
             Toast.makeText(getContext(), respMsg, Toast.LENGTH_SHORT).show();
@@ -395,5 +403,11 @@ public class PersonFragment extends QuickFragment<PersonView, PersonPresenter> i
         SharedPreferencesUtils.setParam(getContext(), "nickname", "");
         mRegeistLl1.setVisibility(View.GONE);
         haveAccountLl.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        EventBus.getDefault().post(new MessageEvent("FeedBackRefresh"));
+        super.onHiddenChanged(hidden);
     }
 }

@@ -50,6 +50,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edit_gray_boder"
                 android:hint="用户名为展示信息"
+                android:maxEms="10"
                 android:paddingLeft="10dp"
                 android:singleLine="true"
                 android:textSize="12sp" />
@@ -110,6 +111,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edit_gray_boder"
                 android:hint="密码将用于找回账号"
+                android:inputType="textPassword"
                 android:paddingLeft="10dp"
                 android:singleLine="true"
                 android:textSize="12sp" />

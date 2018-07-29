@@ -83,6 +83,7 @@ public class SettingActivity extends QuickActivity implements View.OnClickListen
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 EventBus.getDefault().post(new MessageEvent("refreshPersonForReplaceAccount"));
+                                EventBus.getDefault().post(new MessageEvent("refresh"));
                                 finish();
                             }
                         })
@@ -100,6 +101,7 @@ public class SettingActivity extends QuickActivity implements View.OnClickListen
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 EventBus.getDefault().post(new MessageEvent("refreshPersonForLoginOutAccount"));
+                                EventBus.getDefault().post(new MessageEvent("refresh"));
                                 finish();
                             }
                         })

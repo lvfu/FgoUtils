@@ -73,6 +73,7 @@
 
             <EditText
                 android:id="@+id/persion_login_pwd_et"
+                android:inputType="textPassword"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginLeft="45dp"

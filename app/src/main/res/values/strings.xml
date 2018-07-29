@@ -106,4 +106,9 @@
     <string name="empty_msg">数据..走丢了..</string>
     <string name="refresh_button_tv">刷新一下</string>
     <string name="empty_source_drop_msg">数据..未找到..</string>
+
+
+    <string name="input_tiele">Input</string>
+    <string name="input_content_feedback">愉快的发一条消息吧</string>
+
 </resources>

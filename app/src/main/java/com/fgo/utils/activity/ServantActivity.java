@@ -276,6 +276,7 @@ public class ServantActivity extends QuickActivity<ServantView, ServantPresenter
 
     private void setCardBean(int arts_num, int buster_num, int quick_num) {
         mCardList = new ArrayList<>();
+
         for (int i = 0; i < buster_num; i++) {
             mCardList.add("b");
         }

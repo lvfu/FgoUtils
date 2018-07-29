@@ -54,11 +54,13 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustResize|adjustPan" />
         <activity
             android:name=".activity.SettingActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.SourceDropActivity"></activity>
+        <activity
+            android:name=".activity.SourceDropActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

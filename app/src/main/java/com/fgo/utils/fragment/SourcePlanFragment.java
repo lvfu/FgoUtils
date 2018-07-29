@@ -77,6 +77,7 @@ public class SourcePlanFragment extends QuickFragment<SourcePlanView, SourcePlan
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(MessageEvent messageEvent) {
+
         if (messageEvent.getMessage().equals("refresh")) {
 
             userId = (int) SharedPreferencesUtils.getParam(getContext(), "userId", 0);
