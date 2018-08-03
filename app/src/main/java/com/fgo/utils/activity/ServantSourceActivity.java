@@ -37,8 +37,6 @@ public class ServantSourceActivity extends QuickActivity<ServantSourceView, Serv
     private List<String> servanImgList = new ArrayList<>();
     private boolean isMaXiu;
     private LinearLayout mServantSourceLl;
-    //https://fatego.oss-cn-beijing.aliyuncs.com/fate/001-a1.jpg
-    private String url = "https://fatego.oss-cn-beijing.aliyuncs.com/fate/";
 
     private ServantSourcePresenter servantSourcePresenter;
     private int id;
